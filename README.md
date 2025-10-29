@@ -1,5 +1,9 @@
 # 🎵 SpelBok - Din digitala spelbok
 
+**[🇸🇪 Svenska](docs/README.sv.md)** | **[🇩🇪 Deutsch](README.md)** | **[🇬🇧 English](docs/README.en.md)**
+
+---
+
 Eine moderne Progressive Web App zur Verwaltung deines Musikrepertoires - vollständig offline nutzbar!
 
 > **SpelBok** (Schwedisch) = Liederbuch/Spielbuch für Musiker
