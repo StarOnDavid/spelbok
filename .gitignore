@@ -6,26 +6,8 @@
 # Thumbnails
 ._*
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
+# Directories
+CLAUDE
 
 # Editor directories and files
 .vscode/
@@ -42,19 +24,6 @@ node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
-
-# Logs
-*.log
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Backup files
-*.bak
-*.backup
-*~
 
 # Test files (optional)
 tests/

@@ -52,7 +52,7 @@ Eine moderne Progressive Web App zur Verwaltung deines Musikrepertoires - vollst
 Die App kann als Progressive Web App installiert werden und läuft dann wie eine native App!
 
 #### iPhone/iPad (Safari):
-1. **Öffne die App-URL** in Safari (z.B. https://deinusername.github.io/spelbok/)
+1. **Öffne die App-URL** in Safari (z.B. https://StarOnDavid.github.io/spelbok/)
 2. Tippe auf das **Teilen-Symbol** (□↑)
 3. Wähle **"Zum Home-Bildschirm"**
 4. Tippe auf **"Hinzufügen"**
@@ -75,22 +75,6 @@ Die App kann als Progressive Web App installiert werden und läuft dann wie eine
 - ⚡ Schneller Start
 - 🏠 Eigenes Icon auf Home-Bildschirm
 - 🔄 Automatische Updates
-
-➡️ **[Ausführliche PWA-Installationsanleitung](PWA-INSTALLATION.md)**
-
----
-
-### 💻 Schnellstart
-
-#### Option A: Online nutzen (empfohlen)
-1. **Öffne die App-URL** in deinem Browser
-2. **Fertig!** Die App läuft sofort
-
-#### Option B: Lokal ausführen
-1. **Repository klonen**: `git clone https://github.com/username/spelbok.git`
-2. **Webserver starten**: `python3 -m http.server 8000`
-3. **Browser öffnen**: `http://localhost:8000`
-4. **Fertig!** Die App läuft lokal
 
 ---
 
@@ -245,18 +229,3 @@ Diese App ist frei verwendbar für private und kommerzielle Zwecke.
 ---
 
 ## 🎵 Viel Spaß mit SpelBok!
-
-Bei Fragen oder Problemen: Öffne die Browser-Konsole (F12) für technische Details.
-
----
-
-## 📚 Weitere Dokumentation
-
-- **[GETTING_STARTED.md](../GETTING_STARTED.md)** - Setup und Deployment Guide
-- **[PROJECT_STRUCTURE.md](../PROJECT_STRUCTURE.md)** - Architektur-Dokumentation
-- **[CHANGELOG.md](../CHANGELOG.md)** - Versionshistorie
-- **[GITHUB_DEPLOYMENT.md](../GITHUB_DEPLOYMENT.md)** - GitHub Pages Deployment
-
----
-
-**Erstellt von David Staron** | SpelBok v2.0.0 © 2025
