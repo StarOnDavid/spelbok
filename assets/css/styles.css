@@ -1,0 +1,419 @@
+/* ============================================
+   Musik Repertoire WebApp - Stylesheet
+   ============================================ */
+
+/* === BASE STYLES === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #253916 0%, #65d067 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* === CONTAINER === */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* === HEADER === */
+header {
+    background: linear-gradient(135deg, #253916 0%, #65d067 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    opacity: 0.9;
+    font-size: 1.1em;
+}
+
+/* === LANGUAGE SWITCHER === */
+.language-switcher {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.language-switcher select {
+    padding: 8px 15px;
+    border: 2px solid white;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.language-switcher select option {
+    background: #65d067;
+    color: white;
+}
+
+.language-switcher label {
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+/* === CONTENT === */
+.content {
+    padding: 30px;
+}
+
+/* === STATISTICS === */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background: #f2f6f0;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #65d067;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+/* === FORM SECTION === */
+.form-section {
+    background: #f2f6f0;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+input, select, textarea {
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #65d067;
+    box-shadow: 0 0 0 3px rgba(101, 208, 103, 0.1);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+/* === BUTTONS === */
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #65d067 0%, #c9ea63 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(101, 208, 103, 0.4);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    margin-left: 10px;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+    padding: 5px 15px;
+    font-size: 0.85em;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+.btn-edit {
+    background: #c9ea63;
+    color: #253916;
+    padding: 5px 15px;
+    font-size: 0.85em;
+    margin-right: 5px;
+    font-weight: 600;
+}
+
+.btn-edit:hover {
+    background: #b8d955;
+}
+
+.btn-export {
+    background: #253916;
+    color: white;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    margin-right: 10px;
+}
+
+.btn-export:hover {
+    background: #1a2910;
+}
+
+.btn-import {
+    background: #65d067;
+    color: white;
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+
+.btn-import:hover {
+    background: #52b854;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* === TABLE SECTION === */
+.table-section {
+    overflow-x: auto;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.table-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+thead {
+    background: linear-gradient(135deg, #253916 0%, #65d067 100%);
+    color: white;
+}
+
+th {
+    padding: 15px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9em;
+}
+
+tbody tr {
+    transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+    background: #f2f6f0;
+}
+
+.actions {
+    display: flex;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+/* === EMPTY STATE === */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.empty-state svg {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+/* === FILTER SECTION === */
+.filter-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 2px solid #65d067;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.btn-reset-filter {
+    background: #253916;
+    color: white;
+    padding: 6px 15px;
+    font-size: 0.85em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-reset-filter:hover {
+    background: #65d067;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* === FOOTER === */
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-top: 30px;
+}
+
+.footer a {
+    color: #65d067;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        flex-direction: column;
+    }
+
+    .table-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .table-actions {
+        width: 100%;
+    }
+
+    .table-actions .btn {
+        flex: 1;
+    }
+
+    .language-switcher {
+        position: static;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    header {
+        padding: 20px;
+    }
+}

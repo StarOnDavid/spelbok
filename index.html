@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musik Repertoire</title>
+    <meta name="description" content="Verwalte dein Musikrepertoire - Songs, Noten und Übungsnotizen">
+    <meta name="theme-color" content="#65d067">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Repertoire">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="language-switcher">
+                <label>🌐</label>
+                <select id="languageSelect" onchange="changeLanguage(this.value)">
+                    <option value="sv">Svenska</option>
+                    <option value="de">Deutsch</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            <h1><span id="headerIcon">🎵</span> <span data-i18n="appTitle">Musik Repertoire</span></h1>
+            <p class="subtitle" data-i18n="appSubtitle">Hantera ditt musikrepertoar</p>
+        </header>
+        <div class="content">
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalSongs">0</div>
+                    <div class="stat-label" data-i18n="totalSongs">Totala låtar</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="traditionalCount">0</div>
+                    <div class="stat-label" data-i18n="traditionalSongs">Traditionella</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="newCount">0</div>
+                    <div class="stat-label" data-i18n="newSongs">Nya</div>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2 style="margin-bottom: 20px; color: #333;"><span id="formTitle">Lägg till ny låt</span></h2>
+                <form id="songForm">
+                    <input type="hidden" id="editId" value="">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label data-i18n="titel">Titel</label>
+                        <input type="text" id="titel" data-i18n-placeholder="titelPlaceholder" placeholder="T.ex. Bingsjöpolska" style="font-weight: 600; font-size: 1.1em;">
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group"><label data-i18n="lattyp">Låttyp</label><input type="text" id="lattyp" placeholder="T.ex. Polska"></div>
+                        <div class="form-group"><label data-i18n="efterAv">Efter/Av</label><input type="text" id="efter_av" placeholder="Kompositör"></div>
+                        <div class="form-group"><label data-i18n="ort">Ort</label><input type="text" id="ort" placeholder="Stad"></div>
+                        <div class="form-group"><label data-i18n="landskap">Landskap</label><input type="text" id="landskap" placeholder="T.ex. Dalarna"></div>
+                        <div class="form-group"><label data-i18n="land">Land</label><input type="text" id="land" placeholder="T.ex. Sverige"></div>
+                        <div class="form-group"><label data-i18n="tonart">Tonart</label><input type="text" id="tonart" placeholder="T.ex. A-dur"></div>
+                        <div class="form-group"><label data-i18n="svarighetsgrad">Svårighetsgrad</label><select id="svarighetsgrad"><option value="">Välj</option><option value="Lätt">Lätt</option><option value="Medel">Medel</option><option value="Svår">Svår</option><option value="Mycket svår">Mycket svår</option></select></div>
+                        <div class="form-group"><label data-i18n="lardeAv">Av vem lärde jag mig låten?</label><input type="text" id="larde_av"></div>
+                        <div class="form-group"><label data-i18n="inspelning">Inspelning?</label><input type="text" id="inspelning"></div>
+                        <div class="form-group"><label data-i18n="noter">Not?</label><input type="text" id="noter"></div>
+                        <div class="form-group"><label data-i18n="tradEllerNy">Trad/ny</label><select id="trad_eller_ny"><option value="">Välj</option><option value="Traditionell">Traditionell</option><option value="Ny">Ny</option><option value="Modern tolkning">Modern tolkning</option></select></div>
+                        <div class="form-group"><label data-i18n="instrumentKommentar">Instrument</label><input type="text" id="instrument_kommentar"></div>
+                    </div>
+                    <div class="form-group"><label data-i18n="utmaningar">Utmaningar</label><textarea id="utmaningar"></textarea></div>
+                    <div class="form-group"><label data-i18n="andraKommentarer">Kommentarer</label><textarea id="andra_kommentarer"></textarea></div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn" data-i18n="cancel" style="display: none;">Avbryt</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Lägg till låt</button>
+                    </div>
+                </form>
+            </div>
+            <div class="filter-section">
+                <div class="filter-header">
+                    <h3><span data-i18n="filterTitle">🔍 Filtrera</span></h3>
+                    <button class="btn-reset-filter" onclick="resetFilters()" data-i18n="resetFilters">Återställ</button>
+                </div>
+                <div class="filter-grid">
+                    <div class="form-group"><label data-i18n="search">Sök</label><input type="text" id="searchInput" placeholder="Sök..."></div>
+                    <div class="form-group"><label data-i18n="landskap">Landskap</label><select id="filterLandskap"><option value="">Alla</option></select></div>
+                    <div class="form-group"><label data-i18n="svarighetsgrad">Svårighetsgrad</label><select id="filterSvarighetsgrad"><option value="">Alla</option></select></div>
+                    <div class="form-group"><label data-i18n="tradEllerNy">Typ</label><select id="filterTradNy"><option value="">Alla</option></select></div>
+                </div>
+            </div>
+            <div class="table-section">
+                <div class="table-header">
+                    <h2 style="color: #333;" data-i18n="repertoire">Repertoar</h2>
+                    <div class="table-actions">
+                        <button class="btn btn-export" onclick="exportData()"><span data-i18n="exportJson">📥 Exportera JSON</span></button>
+                        <button class="btn btn-import" onclick="document.getElementById('importFile').click()"><span data-i18n="importJson">📤 Importera JSON</span></button>
+                        <input type="file" id="importFile" accept=".json" onchange="importData(event)">
+                    </div>
+                </div>
+                <div id="tableContainer"></div>
+            </div>
+            <div class="footer">© 2025 David Staron</div>
+        </div>
+    </div>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

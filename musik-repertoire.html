@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Musik Repertoire</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Verwalte dein Musikrepertoire - Songs, Noten und Übungsnotizen">
+    <meta name="theme-color" content="#65d067">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg fill='%2365d067' height='800px' width='800px' version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpath d='M183.153,284.834c-1.28,17.835,4.224,34.731,14.677,45.205c14.805,14.805,42.219,15.787,58.176,14.485v-71.019c-6.805,5.397-10.923,13.525-10.923,24.213c0,11.776-9.536,21.333-21.333,21.333c-11.797,0-21.333-9.557-21.333-21.333c0-35.349,21.653-62.4,53.589-70.848v-16.811c-19.584,10.048-37.248,19.029-45.653,23.296C194.481,245.837,184.604,264.503,183.153,284.834z'/%3E%3Cpath d='M340.188,84.198c-3.435-11.605-13.824-18.773-27.136-18.773c-3.797-0.128-6.101,0.939-8.363,3.221c-3.797,3.861-6.101,10.688-6.016,17.856v53.483c8.341-4.395,14.144-7.531,15.936-8.661C339.121,115.665,343.921,96.7,340.188,84.198z'/%3E%3Cpath d='M0,0v512h512V0H0z M362.667,298.667c0,36.651-30.272,66.709-64,79.723v26.944c0,1.323,0.149,2.965,0.256,4.757c0.491,7.147,1.067,15.232-1.131,22.635c-9.344,31.403-45.611,57.941-79.211,57.941h-5.248c-39.488,0-64-24.512-64-64c0-11.776,9.536-21.333,21.333-21.333c11.797,0,21.333,9.557,21.333,21.333c0,15.552,5.781,21.333,21.333,21.333h5.248c14.677,0,34.347-14.08,38.293-27.413c0.085-1.429-0.32-4.693-0.512-7.573c-0.192-2.88-0.363-5.568-0.363-7.68v-18.112c-22.336,1.472-61.824-0.512-88.341-27.008c-19.371-19.371-29.248-47.957-27.072-78.421c2.368-33.259,18.987-63.744,45.568-83.627c0.96-0.747,2.027-1.387,3.115-1.963c19.392-9.856,44.224-22.528,66.731-34.091V86.741c-0.213-18.453,6.485-36.075,18.347-48.085c10.325-10.432,23.424-16.128,38.869-15.915c31.787,0,59.093,19.733,67.861,49.301c10.261,34.432-6.848,71.829-43.541,95.275c-3.776,2.411-19.52,10.731-38.869,20.779v38.656C332.416,234.965,362.667,261.653,362.667,298.667z'/%3E%3Cpath d='M298.667,330.581c12.16-8.299,21.333-19.904,21.333-31.915c0-11.84-9.344-21.675-21.333-27.243V330.581z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E">
+    
+    <!-- iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Repertoire">
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-192x192.png">
+    
+    <!-- iOS Splash Screens -->
+    <meta name="apple-mobile-web-app-status-bar" content="#65d067">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #253916 0%, #65d067 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #253916 0%, #65d067 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .language-switcher select {
+            padding: 8px 15px;
+            border: 2px solid white;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .language-switcher select option {
+            background: #65d067;
+            color: white;
+        }
+
+        .language-switcher label {
+            font-weight: 600;
+            color: white;
+            margin: 0;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #f2f6f0;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #65d067;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .form-section {
+            background: #f2f6f0;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        input, select, textarea {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #65d067;
+            box-shadow: 0 0 0 3px rgba(101, 208, 103, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #65d067 0%, #c9ea63 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(101, 208, 103, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            padding: 5px 15px;
+            font-size: 0.85em;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .btn-edit {
+            background: #c9ea63;
+            color: #253916;
+            padding: 5px 15px;
+            font-size: 0.85em;
+            margin-right: 5px;
+            font-weight: 600;
+        }
+
+        .btn-edit:hover {
+            background: #b8d955;
+        }
+
+        .btn-export {
+            background: #253916;
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+
+        .btn-export:hover {
+            background: #1a2910;
+        }
+
+        .btn-import {
+            background: #65d067;
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.9em;
+        }
+
+        .btn-import:hover {
+            background: #52b854;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .table-section {
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #253916 0%, #65d067 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.9em;
+        }
+
+        tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f2f6f0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .filter-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #65d067;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-header h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .btn-reset-filter {
+            background: #253916;
+            color: white;
+            padding: 6px 15px;
+            font-size: 0.85em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reset-filter:hover {
+            background: #65d067;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 30px;
+        }
+
+        .footer a {
+            color: #65d067;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .table-actions {
+                width: 100%;
+            }
+
+            .table-actions .btn {
+                flex: 1;
+            }
+
+            .language-switcher {
+                position: static;
+                justify-content: center;
+                margin-bottom: 15px;
+            }
+
+            header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="language-switcher">
+                <label>🌐</label>
+                <select id="languageSelect" onchange="changeLanguage(this.value)">
+                    <option value="sv">Svenska</option>
+                    <option value="de">Deutsch</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            <h1><span id="headerIcon">🎵</span> <span data-i18n="appTitle">Musik Repertoire</span></h1>
+            <p class="subtitle" data-i18n="appSubtitle">Hantera ditt musikrepertoar</p>
+        </header>
+
+        <div class="content">
+            <!-- Statistics -->
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalSongs">0</div>
+                    <div class="stat-label" data-i18n="totalSongs">Totala låtar</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="traditionalCount">0</div>
+                    <div class="stat-label" data-i18n="traditionalSongs">Traditionella</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="newCount">0</div>
+                    <div class="stat-label" data-i18n="newSongs">Nya</div>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2 style="margin-bottom: 20px; color: #333;">
+                    <span id="formTitle">Lägg till ny låt</span>
+                </h2>
+                <form id="songForm">
+                    <input type="hidden" id="editId" value="">
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label data-i18n="titel">Titel</label>
+                        <input type="text" id="titel" data-i18n-placeholder="titelPlaceholder" placeholder="T.ex. Bingsjöpolska, Polska efter Hjort Anders" style="font-weight: 600; font-size: 1.1em;">
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label data-i18n="lattyp">Låttyp</label>
+                            <input type="text" id="lattyp" data-i18n-placeholder="lattypPlaceholder" placeholder="T.ex. Polska, Vals, Slängpolska">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="efterAv">Efter/Av</label>
+                            <input type="text" id="efter_av" data-i18n-placeholder="efterAvPlaceholder" placeholder="Kompositör eller källa">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="ort">Ort</label>
+                            <input type="text" id="ort" data-i18n-placeholder="ortPlaceholder" placeholder="Stad eller by">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="landskap">Landskap</label>
+                            <input type="text" id="landskap" data-i18n-placeholder="landskapPlaceholder" placeholder="T.ex. Dalarna, Skåne">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="land">Land</label>
+                            <input type="text" id="land" data-i18n-placeholder="landPlaceholder" placeholder="T.ex. Sverige, Norge">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="tonart">Tonart</label>
+                            <input type="text" id="tonart" data-i18n-placeholder="tonartPlaceholder" placeholder="T.ex. A-dur, d-moll">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="svarighetsgrad">Svårighetsgrad</label>
+                            <select id="svarighetsgrad">
+                                <option value="" data-i18n="chooseDifficulty">Välj svårighetsgrad</option>
+                                <option value="Lätt" data-i18n="easy">Lätt</option>
+                                <option value="Medel" data-i18n="medium">Medel</option>
+                                <option value="Svår" data-i18n="hard">Svår</option>
+                                <option value="Mycket svår" data-i18n="veryHard">Mycket svår</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="lardeAv">Av vem lärde jag mig låten?</label>
+                            <input type="text" id="larde_av" data-i18n-placeholder="lardeAvPlaceholder" placeholder="Lärare eller källa">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="inspelning">Var hittar jag inspelning?</label>
+                            <input type="text" id="inspelning" data-i18n-placeholder="inspelningPlaceholder" placeholder="URL eller plattform">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="noter">Not?</label>
+                            <input type="text" id="noter" data-i18n-placeholder="noterPlaceholder" placeholder="Finns noter?">
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="tradEllerNy">Trad eller ny</label>
+                            <select id="trad_eller_ny">
+                                <option value="" data-i18n="chooseType">Välj typ</option>
+                                <option value="Traditionell" data-i18n="traditional">Traditionell</option>
+                                <option value="Ny" data-i18n="new">Ny</option>
+                                <option value="Modern tolkning" data-i18n="modernInterpretation">Modern tolkning</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-i18n="instrumentKommentar">Instrument kommentar</label>
+                            <input type="text" id="instrument_kommentar" data-i18n-placeholder="instrumentPlaceholder" placeholder="T.ex. Fiol, Nyckelharpa">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="utmaningar">Utmaningar / Bra att jobba på med låten</label>
+                        <textarea id="utmaningar" data-i18n-placeholder="utmaningarPlaceholder" placeholder="Tekniska utmaningar, specifika delar att öva på..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="andraKommentarer">Andra kommentarer</label>
+                        <textarea id="andra_kommentarer" data-i18n-placeholder="andraKommentarerPlaceholder" placeholder="Övriga anteckningar och kommentarer..."></textarea>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn" data-i18n="cancel" style="display: none;">Avbryt</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Lägg till låt</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-header">
+                    <h3><span data-i18n="filterTitle">🔍 Filtrera</span></h3>
+                    <button class="btn-reset-filter" onclick="resetFilters()" data-i18n="resetFilters">Återställ filter</button>
+                </div>
+                <div class="filter-grid">
+                    <div class="form-group">
+                        <label data-i18n="search">Sök</label>
+                        <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="Sök i alla fält...">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="landskap">Landskap</label>
+                        <select id="filterLandskap">
+                            <option value="" data-i18n="allLandskap">Alla landskap</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="svarighetsgrad">Svårighetsgrad</label>
+                        <select id="filterSvarighetsgrad">
+                            <option value="" data-i18n="allDifficulties">Alla svårighetsgrader</option>
+                            <option value="Lätt" data-i18n="easy">Lätt</option>
+                            <option value="Medel" data-i18n="medium">Medel</option>
+                            <option value="Svår" data-i18n="hard">Svår</option>
+                            <option value="Mycket svår" data-i18n="veryHard">Mycket svår</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="tradEllerNy">Typ</label>
+                        <select id="filterTradNy">
+                            <option value="" data-i18n="allTypes">Alla typer</option>
+                            <option value="Traditionell" data-i18n="traditional">Traditionell</option>
+                            <option value="Ny" data-i18n="new">Ny</option>
+                            <option value="Modern tolkning" data-i18n="modernInterpretation">Modern tolkning</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h2 style="color: #333;" data-i18n="repertoire">Repertoar</h2>
+                    <div class="table-actions">
+                        <button class="btn btn-export" onclick="exportData()"><span data-i18n="exportJson">📥 Exportera JSON</span></button>
+                        <button class="btn btn-import" onclick="document.getElementById('importFile').click()"><span data-i18n="importJson">📤 Importera JSON</span></button>
+                        <input type="file" id="importFile" accept=".json" onchange="importData(event)">
+                    </div>
+                </div>
+                <div id="tableContainer"></div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                © 2025 David Staron
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Translations
+        const translations = {
+            sv: {
+                appTitle: "Musik Repertoire",
+                appSubtitle: "Hantera ditt musikrepertoar",
+                totalSongs: "Totala låtar",
+                traditionalSongs: "Traditionella",
+                newSongs: "Nya",
+                addNewSong: "Lägg till ny låt",
+                editSong: "Redigera låt",
+                titel: "Titel",
+                titelPlaceholder: "T.ex. Bingsjöpolska, Polska efter Hjort Anders",
+                lattyp: "Låttyp",
+                lattypPlaceholder: "T.ex. Polska, Vals, Slängpolska",
+                efterAv: "Efter/Av",
+                efterAvPlaceholder: "Kompositör eller källa",
+                ort: "Ort",
+                ortPlaceholder: "Stad eller by",
+                landskap: "Landskap",
+                landskapPlaceholder: "T.ex. Dalarna, Skåne",
+                land: "Land",
+                landPlaceholder: "T.ex. Sverige, Norge",
+                tonart: "Tonart",
+                tonartPlaceholder: "T.ex. A-dur, d-moll",
+                svarighetsgrad: "Svårighetsgrad",
+                chooseDifficulty: "Välj svårighetsgrad",
+                easy: "Lätt",
+                medium: "Medel",
+                hard: "Svår",
+                veryHard: "Mycket svår",
+                utmaningar: "Utmaningar / Bra att jobba på med låten",
+                utmaningarPlaceholder: "Tekniska utmaningar, specifika delar att öva på...",
+                lardeAv: "Av vem lärde jag mig låten?",
+                lardeAvPlaceholder: "Lärare eller källa",
+                inspelning: "Var hittar jag inspelning?",
+                inspelningPlaceholder: "URL eller plattform",
+                noter: "Not?",
+                noterPlaceholder: "Finns noter?",
+                instrumentKommentar: "Instrument kommentar",
+                instrumentPlaceholder: "T.ex. Fiol, Nyckelharpa",
+                tradEllerNy: "Trad eller ny",
+                chooseType: "Välj typ",
+                traditional: "Traditionell",
+                new: "Ny",
+                modernInterpretation: "Modern tolkning",
+                andraKommentarer: "Andra kommentarer",
+                andraKommentarerPlaceholder: "Övriga anteckningar och kommentarer...",
+                cancel: "Avbryt",
+                addSong: "Lägg till låt",
+                updateSong: "Uppdatera låt",
+                filterTitle: "Filtrera",
+                resetFilters: "Återställ filter",
+                search: "Sök",
+                searchPlaceholder: "Sök i alla fält...",
+                allLandskap: "Alla landskap",
+                allDifficulties: "Alla svårighetsgrader",
+                allTypes: "Alla typer",
+                repertoire: "Repertoar",
+                exportJson: "Exportera JSON",
+                importJson: "Importera JSON",
+                actions: "Åtgärder",
+                edit: "Redigera",
+                delete: "Ta bort",
+                noSongsYet: "Ingen låtar ännu",
+                addFirstSong: "Lägg till din första låt med formuläret ovan",
+                noMatchingFilters: "Inga låtar matchar filtren",
+                tryChangingFilters: "Prova att ändra dina filterinställningar",
+                confirmDelete: "Är du säker på att du vill ta bort denna låt?",
+                confirmImport: "Vill du importera {count} låtar? Detta kommer att lägga till dem till din befintliga samling.",
+                importSuccess: "Import lyckades!",
+                duplicatesSkipped: "{count} dubbletter hoppades över.",
+                allDuplicates: "Alla {count} låtar finns redan i din samling.",
+                invalidFileFormat: "Ogiltig fil format. Vänligen välj en giltig JSON-fil.",
+                importError: "Fel vid import: {error}"
+            },
+            de: {
+                appTitle: "Musik Repertoire",
+                appSubtitle: "Verwalte dein Musikrepertoire",
+                totalSongs: "Gesamt Lieder",
+                traditionalSongs: "Traditionell",
+                newSongs: "Neue",
+                addNewSong: "Neues Lied hinzufügen",
+                editSong: "Lied bearbeiten",
+                titel: "Titel",
+                titelPlaceholder: "Z.B. Bingsjöpolska, Polska nach Hjort Anders",
+                lattyp: "Liedtyp",
+                lattypPlaceholder: "Z.B. Polska, Walzer, Slängpolska",
+                efterAv: "Nach/Von",
+                efterAvPlaceholder: "Komponist oder Quelle",
+                ort: "Ort",
+                ortPlaceholder: "Stadt oder Dorf",
+                landskap: "Region",
+                landskapPlaceholder: "Z.B. Dalarna, Skåne",
+                land: "Land",
+                landPlaceholder: "Z.B. Schweden, Norwegen",
+                tonart: "Tonart",
+                tonartPlaceholder: "Z.B. A-Dur, d-Moll",
+                svarighetsgrad: "Schwierigkeitsgrad",
+                chooseDifficulty: "Schwierigkeit wählen",
+                easy: "Leicht",
+                medium: "Mittel",
+                hard: "Schwer",
+                veryHard: "Sehr schwer",
+                utmaningar: "Herausforderungen / Gut zum Üben",
+                utmaningarPlaceholder: "Technische Herausforderungen, spezifische Teile zum Üben...",
+                lardeAv: "Von wem habe ich das Lied gelernt?",
+                lardeAvPlaceholder: "Lehrer oder Quelle",
+                inspelning: "Wo finde ich die Aufnahme?",
+                inspelningPlaceholder: "URL oder Plattform",
+                noter: "Noten?",
+                noterPlaceholder: "Noten verfügbar?",
+                instrumentKommentar: "Instrument Kommentar",
+                instrumentPlaceholder: "Z.B. Geige, Nyckelharpa",
+                tradEllerNy: "Trad oder neu",
+                chooseType: "Typ wählen",
+                traditional: "Traditionell",
+                new: "Neu",
+                modernInterpretation: "Moderne Interpretation",
+                andraKommentarer: "Weitere Kommentare",
+                andraKommentarerPlaceholder: "Sonstige Notizen und Kommentare...",
+                cancel: "Abbrechen",
+                addSong: "Lied hinzufügen",
+                updateSong: "Lied aktualisieren",
+                filterTitle: "Filtern",
+                resetFilters: "Filter zurücksetzen",
+                search: "Suchen",
+                searchPlaceholder: "In allen Feldern suchen...",
+                allLandskap: "Alle Regionen",
+                allDifficulties: "Alle Schwierigkeitsgrade",
+                allTypes: "Alle Typen",
+                repertoire: "Repertoire",
+                exportJson: "JSON exportieren",
+                importJson: "JSON importieren",
+                actions: "Aktionen",
+                edit: "Bearbeiten",
+                delete: "Löschen",
+                noSongsYet: "Noch keine Lieder",
+                addFirstSong: "Füge dein erstes Lied mit dem Formular oben hinzu",
+                noMatchingFilters: "Keine Lieder entsprechen den Filtern",
+                tryChangingFilters: "Versuche die Filtereinstellungen zu ändern",
+                confirmDelete: "Bist du sicher, dass du dieses Lied löschen möchtest?",
+                confirmImport: "Möchtest du {count} Lieder importieren? Diese werden zu deiner bestehenden Sammlung hinzugefügt.",
+                importSuccess: "Import erfolgreich!",
+                duplicatesSkipped: "{count} Duplikate übersprungen.",
+                allDuplicates: "Alle {count} Lieder sind bereits in deiner Sammlung vorhanden.",
+                invalidFileFormat: "Ungültiges Dateiformat. Bitte wähle eine gültige JSON-Datei.",
+                importError: "Fehler beim Import: {error}"
+            },
+            en: {
+                appTitle: "Music Repertoire",
+                appSubtitle: "Manage your music repertoire",
+                totalSongs: "Total Songs",
+                traditionalSongs: "Traditional",
+                newSongs: "New",
+                addNewSong: "Add New Song",
+                editSong: "Edit Song",
+                titel: "Title",
+                titelPlaceholder: "E.g. Bingsjöpolska, Polska after Hjort Anders",
+                lattyp: "Song Type",
+                lattypPlaceholder: "E.g. Polska, Waltz, Slängpolska",
+                efterAv: "After/By",
+                efterAvPlaceholder: "Composer or source",
+                ort: "Place",
+                ortPlaceholder: "City or village",
+                landskap: "Region",
+                landskapPlaceholder: "E.g. Dalarna, Skåne",
+                land: "Country",
+                landPlaceholder: "E.g. Sweden, Norway",
+                tonart: "Key",
+                tonartPlaceholder: "E.g. A major, d minor",
+                svarighetsgrad: "Difficulty",
+                chooseDifficulty: "Choose difficulty",
+                easy: "Easy",
+                medium: "Medium",
+                hard: "Hard",
+                veryHard: "Very Hard",
+                utmaningar: "Challenges / Good to work on",
+                utmaningarPlaceholder: "Technical challenges, specific parts to practice...",
+                lardeAv: "Who did I learn the song from?",
+                lardeAvPlaceholder: "Teacher or source",
+                inspelning: "Where can I find the recording?",
+                inspelningPlaceholder: "URL or platform",
+                noter: "Sheet music?",
+                noterPlaceholder: "Sheet music available?",
+                instrumentKommentar: "Instrument Comment",
+                instrumentPlaceholder: "E.g. Violin, Nyckelharpa",
+                tradEllerNy: "Trad or new",
+                chooseType: "Choose type",
+                traditional: "Traditional",
+                new: "New",
+                modernInterpretation: "Modern interpretation",
+                andraKommentarer: "Other comments",
+                andraKommentarerPlaceholder: "Other notes and comments...",
+                cancel: "Cancel",
+                addSong: "Add Song",
+                updateSong: "Update Song",
+                filterTitle: "Filter",
+                resetFilters: "Reset Filters",
+                search: "Search",
+                searchPlaceholder: "Search in all fields...",
+                allLandskap: "All regions",
+                allDifficulties: "All difficulties",
+                allTypes: "All types",
+                repertoire: "Repertoire",
+                exportJson: "Export JSON",
+                importJson: "Import JSON",
+                actions: "Actions",
+                edit: "Edit",
+                delete: "Delete",
+                noSongsYet: "No songs yet",
+                addFirstSong: "Add your first song using the form above",
+                noMatchingFilters: "No songs match the filters",
+                tryChangingFilters: "Try changing your filter settings",
+                confirmDelete: "Are you sure you want to delete this song?",
+                confirmImport: "Do you want to import {count} songs? They will be added to your existing collection.",
+                importSuccess: "Import successful!",
+                duplicatesSkipped: "{count} duplicates skipped.",
+                allDuplicates: "All {count} songs already exist in your collection.",
+                invalidFileFormat: "Invalid file format. Please select a valid JSON file.",
+                importError: "Error importing: {error}"
+            }
+        };
+
+        // Current language
+        let currentLanguage = 'sv';
+
+        // LocalStorage key
+        const STORAGE_KEY = 'musikRepertoireSongs';
+        const LANGUAGE_KEY = 'musikRepertoireLanguage';
+        let songs = [];
+        let editingId = null;
+        let filteredSongs = [];
+
+        // Generate unique ID
+        function generateUniqueId() {
+            return 'song_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // Load songs on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLanguage();
+            loadSongs();
+            setupEventListeners();
+        });
+
+        function loadLanguage() {
+            const saved = localStorage.getItem(LANGUAGE_KEY);
+            if (saved && translations[saved]) {
+                currentLanguage = saved;
+                document.getElementById('languageSelect').value = saved;
+            }
+            updateLanguage();
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LANGUAGE_KEY, lang);
+            updateLanguage();
+            updateFilters(); // Update filter dropdowns with new language
+        }
+
+        function t(key) {
+            return translations[currentLanguage][key] || key;
+        }
+
+        function updateLanguage() {
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (element.tagName === 'OPTION') {
+                    element.textContent = t(key);
+                } else {
+                    element.textContent = t(key);
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                element.placeholder = t(key);
+            });
+
+            // Update form title based on editing state
+            updateFormTitle();
+            
+            // Re-render table to update headers
+            if (songs.length > 0) {
+                renderTable();
+            }
+        }
+
+        function updateFormTitle() {
+            const titleKey = editingId !== null ? 'editSong' : 'addNewSong';
+            document.getElementById('formTitle').textContent = t(titleKey);
+            document.getElementById('submitBtn').textContent = editingId !== null ? t('updateSong') : t('addSong');
+        }
+
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('songForm').addEventListener('submit', handleFormSubmit);
+            
+            // Cancel edit button
+            document.getElementById('cancelBtn').addEventListener('click', resetForm);
+            
+            // Filter listeners
+            document.getElementById('searchInput').addEventListener('input', filterSongs);
+            document.getElementById('filterLandskap').addEventListener('change', filterSongs);
+            document.getElementById('filterSvarighetsgrad').addEventListener('change', filterSongs);
+            document.getElementById('filterTradNy').addEventListener('change', filterSongs);
+        }
+
+        function loadSongs() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            songs = stored ? JSON.parse(stored) : [];
+            
+            // Data migration: Convert old numeric IDs to new unique IDs
+            let needsMigration = false;
+            songs.forEach(song => {
+                if (!song.id || typeof song.id === 'number') {
+                    song.id = generateUniqueId();
+                    needsMigration = true;
+                }
+            });
+            
+            // Save if migration occurred
+            if (needsMigration && songs.length > 0) {
+                saveSongs();
+            }
+            
+            filteredSongs = [...songs];
+            updateStats();
+            updateFilters();
+            renderTable();
+        }
+
+        function saveSongs() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                titel: document.getElementById('titel').value,
+                lattyp: document.getElementById('lattyp').value,
+                efter_av: document.getElementById('efter_av').value,
+                ort: document.getElementById('ort').value,
+                landskap: document.getElementById('landskap').value,
+                land: document.getElementById('land').value,
+                tonart: document.getElementById('tonart').value,
+                svarighetsgrad: document.getElementById('svarighetsgrad').value,
+                utmaningar: document.getElementById('utmaningar').value,
+                larde_av: document.getElementById('larde_av').value,
+                inspelning: document.getElementById('inspelning').value,
+                noter: document.getElementById('noter').value,
+                instrument_kommentar: document.getElementById('instrument_kommentar').value,
+                trad_eller_ny: document.getElementById('trad_eller_ny').value,
+                andra_kommentarer: document.getElementById('andra_kommentarer').value
+            };
+
+            if (editingId !== null) {
+                updateSong(editingId, formData);
+            } else {
+                addSong(formData);
+            }
+
+            resetForm();
+            loadSongs();
+        }
+
+        function addSong(data) {
+            const newSong = {
+                id: generateUniqueId(),
+                ...data
+            };
+            songs.unshift(newSong);
+            saveSongs();
+        }
+
+        function updateSong(id, data) {
+            const index = songs.findIndex(s => s.id === id);
+            if (index !== -1) {
+                songs[index] = { id, ...data };
+                saveSongs();
+            }
+        }
+
+        function deleteSong(songId) {
+            if (!confirm(t('confirmDelete'))) return;
+            
+            // Find the song to confirm it exists
+            const songToDelete = songs.find(s => s.id === songId);
+            if (!songToDelete) {
+                console.error('Song not found:', songId);
+                return;
+            }
+            
+            // Filter out only this specific song
+            const beforeCount = songs.length;
+            songs = songs.filter(s => s.id !== songId);
+            const afterCount = songs.length;
+            
+            // Verify exactly one song was deleted
+            if (beforeCount - afterCount !== 1) {
+                console.error('Delete error: expected to delete 1 song, but deleted', beforeCount - afterCount);
+            }
+            
+            saveSongs();
+            loadSongs();
+        }
+
+        function editSong(songId) {
+            const song = songs.find(s => s.id === songId);
+            if (!song) return;
+            
+            editingId = song.id;
+            document.getElementById('cancelBtn').style.display = 'block';
+
+            document.getElementById('titel').value = song.titel || '';
+            document.getElementById('lattyp').value = song.lattyp || '';
+            document.getElementById('efter_av').value = song.efter_av || '';
+            document.getElementById('ort').value = song.ort || '';
+            document.getElementById('landskap').value = song.landskap || '';
+            document.getElementById('land').value = song.land || '';
+            document.getElementById('tonart').value = song.tonart || '';
+            document.getElementById('svarighetsgrad').value = song.svarighetsgrad || '';
+            document.getElementById('utmaningar').value = song.utmaningar || '';
+            document.getElementById('larde_av').value = song.larde_av || '';
+            document.getElementById('inspelning').value = song.inspelning || '';
+            document.getElementById('noter').value = song.noter || '';
+            document.getElementById('instrument_kommentar').value = song.instrument_kommentar || '';
+            document.getElementById('trad_eller_ny').value = song.trad_eller_ny || '';
+            document.getElementById('andra_kommentarer').value = song.andra_kommentarer || '';
+
+            updateFormTitle();
+            document.getElementById('songForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetForm() {
+            editingId = null;
+            document.getElementById('songForm').reset();
+            document.getElementById('cancelBtn').style.display = 'none';
+            updateFormTitle();
+        }
+
+        function updateStats() {
+            document.getElementById('totalSongs').textContent = songs.length;
+            
+            const traditional = songs.filter(s => s.trad_eller_ny === 'Traditionell').length;
+            const newSongs = songs.filter(s => s.trad_eller_ny === 'Ny').length;
+            
+            document.getElementById('traditionalCount').textContent = traditional;
+            document.getElementById('newCount').textContent = newSongs;
+        }
+
+        function updateFilters() {
+            // Update landskap filter
+            const landskapSet = new Set();
+            songs.forEach(s => {
+                if (s.landskap) landskapSet.add(s.landskap);
+            });
+            
+            const landskapSelect = document.getElementById('filterLandskap');
+            const currentLandskap = landskapSelect.value;
+            landskapSelect.innerHTML = `<option value="" data-i18n="allLandskap">${t('allLandskap')}</option>`;
+            
+            Array.from(landskapSet).sort().forEach(landskap => {
+                const option = document.createElement('option');
+                option.value = landskap;
+                option.textContent = landskap;
+                landskapSelect.appendChild(option);
+            });
+            
+            landskapSelect.value = currentLandskap;
+        }
+
+        function filterSongs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const landskapFilter = document.getElementById('filterLandskap').value;
+            const svarighetsgradFilter = document.getElementById('filterSvarighetsgrad').value;
+            const tradNyFilter = document.getElementById('filterTradNy').value;
+
+            filteredSongs = songs.filter(song => {
+                // Search filter
+                if (searchTerm) {
+                    const searchableText = Object.values(song).join(' ').toLowerCase();
+                    if (!searchableText.includes(searchTerm)) return false;
+                }
+
+                // Landskap filter
+                if (landskapFilter && song.landskap !== landskapFilter) return false;
+
+                // Svårighetsgrad filter
+                if (svarighetsgradFilter && song.svarighetsgrad !== svarighetsgradFilter) return false;
+
+                // Trad/Ny filter
+                if (tradNyFilter && song.trad_eller_ny !== tradNyFilter) return false;
+
+                return true;
+            });
+
+            renderTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterLandskap').value = '';
+            document.getElementById('filterSvarighetsgrad').value = '';
+            document.getElementById('filterTradNy').value = '';
+            filteredSongs = [...songs];
+            renderTable();
+        }
+
+        function renderTable() {
+            const container = document.getElementById('tableContainer');
+            
+            if (filteredSongs.length === 0) {
+                const emptyTitle = songs.length === 0 ? t('noSongsYet') : t('noMatchingFilters');
+                const emptyMsg = songs.length === 0 ? t('addFirstSong') : t('tryChangingFilters');
+                
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                        </svg>
+                        <h3>${emptyTitle}</h3>
+                        <p>${emptyMsg}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>${t('titel')}</th>
+                            <th>${t('lattyp')}</th>
+                            <th>${t('efterAv')}</th>
+                            <th>${t('ort')}</th>
+                            <th>${t('landskap')}</th>
+                            <th>${t('land')}</th>
+                            <th>${t('tonart')}</th>
+                            <th>${t('svarighetsgrad')}</th>
+                            <th>${t('utmaningar')}</th>
+                            <th>${t('lardeAv')}</th>
+                            <th>${t('inspelning')}</th>
+                            <th>${t('noter')}</th>
+                            <th>${t('instrumentKommentar')}</th>
+                            <th>${t('tradEllerNy')}</th>
+                            <th>${t('andraKommentarer')}</th>
+                            <th>${t('actions')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            filteredSongs.forEach(song => {
+                tableHTML += `
+                    <tr>
+                        <td style="font-weight: 600;">${escapeHtml(song.titel || '-')}</td>
+                        <td>${escapeHtml(song.lattyp || '-')}</td>
+                        <td>${escapeHtml(song.efter_av || '-')}</td>
+                        <td>${escapeHtml(song.ort || '-')}</td>
+                        <td>${escapeHtml(song.landskap || '-')}</td>
+                        <td>${escapeHtml(song.land || '-')}</td>
+                        <td>${escapeHtml(song.tonart || '-')}</td>
+                        <td>${escapeHtml(song.svarighetsgrad || '-')}</td>
+                        <td>${escapeHtml(song.utmaningar || '-')}</td>
+                        <td>${escapeHtml(song.larde_av || '-')}</td>
+                        <td>${escapeHtml(song.inspelning || '-')}</td>
+                        <td>${escapeHtml(song.noter || '-')}</td>
+                        <td>${escapeHtml(song.instrument_kommentar || '-')}</td>
+                        <td>${escapeHtml(song.trad_eller_ny || '-')}</td>
+                        <td>${escapeHtml(song.andra_kommentarer || '-')}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn btn-edit" onclick="editSong('${song.id}')">${t('edit')}</button>
+                                <button class="btn btn-delete" onclick="deleteSong('${song.id}')">${t('delete')}</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(songs, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `musik-repertoire-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function isDuplicate(newSong) {
+            return songs.some(existingSong => {
+                // Compare all fields except 'id'
+                return (existingSong.titel || '') === (newSong.titel || '') &&
+                       (existingSong.lattyp || '') === (newSong.lattyp || '') &&
+                       (existingSong.efter_av || '') === (newSong.efter_av || '') &&
+                       (existingSong.ort || '') === (newSong.ort || '') &&
+                       (existingSong.landskap || '') === (newSong.landskap || '') &&
+                       (existingSong.land || '') === (newSong.land || '') &&
+                       (existingSong.tonart || '') === (newSong.tonart || '') &&
+                       (existingSong.svarighetsgrad || '') === (newSong.svarighetsgrad || '') &&
+                       (existingSong.utmaningar || '') === (newSong.utmaningar || '') &&
+                       (existingSong.larde_av || '') === (newSong.larde_av || '') &&
+                       (existingSong.inspelning || '') === (newSong.inspelning || '') &&
+                       (existingSong.noter || '') === (newSong.noter || '') &&
+                       (existingSong.instrument_kommentar || '') === (newSong.instrument_kommentar || '') &&
+                       (existingSong.trad_eller_ny || '') === (newSong.trad_eller_ny || '') &&
+                       (existingSong.andra_kommentarer || '') === (newSong.andra_kommentarer || '');
+            });
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (Array.isArray(importedData)) {
+                        // Remove old IDs from imported data and check for duplicates
+                        const cleanedData = importedData.map(song => {
+                            const { id, ...songWithoutId } = song;
+                            return songWithoutId;
+                        });
+                        
+                        // Filter out duplicates
+                        const newSongs = cleanedData.filter(song => !isDuplicate(song));
+                        const duplicateCount = importedData.length - newSongs.length;
+                        
+                        if (newSongs.length === 0) {
+                            alert(t('allDuplicates').replace('{count}', importedData.length));
+                            event.target.value = '';
+                            return;
+                        }
+                        
+                        let confirmMsg = t('confirmImport').replace('{count}', newSongs.length);
+                        if (duplicateCount > 0) {
+                            confirmMsg += ' ' + t('duplicatesSkipped').replace('{count}', duplicateCount);
+                        }
+                        
+                        if (confirm(confirmMsg)) {
+                            newSongs.forEach(song => {
+                                // addSong will generate a new unique ID
+                                addSong(song);
+                            });
+                            loadSongs();
+                            
+                            let successMsg = t('importSuccess');
+                            if (duplicateCount > 0) {
+                                successMsg += ' ' + t('duplicatesSkipped').replace('{count}', duplicateCount);
+                            }
+                            alert(successMsg);
+                        }
+                    } else {
+                        alert(t('invalidFileFormat'));
+                    }
+                } catch (error) {
+                    alert(t('importError').replace('{error}', error.message));
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
+        // ============================================
+        // PWA: Service Worker Registration
+        // ============================================
+        
+        let deferredPrompt;
+        
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        // Capture the install prompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt event fired');
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallButton();
+        });
+
+        // Show install button (optional - can be added to UI later)
+        function showInstallButton() {
+            // This is where you could show a custom install button
+            console.log('App can be installed');
+        }
+
+        // Handle app installed event
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
+            deferredPrompt = null;
+        });
+
+        // Check if app is running in standalone mode (installed)
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            console.log('App is running in standalone mode (installed as PWA)');
+        }
+    </script>
+</body>
+</html>
