@@ -1,4 +1,4 @@
-# 🎵 Musik Repertoire WebApp
+# 🎵 SpelBok WebApp
 
 Eine Single-File WebApp zur Verwaltung deines Musikrepertoires - vollständig offline nutzbar!
 
@@ -226,4 +226,4 @@ Diese App ist frei verwendbar für private und kommerzielle Zwecke.
 
 Bei Fragen oder Problemen: Öffne die Browser-Konsole (F12) für technische Details.
 
-**Erstellt von David Staron** | Musik Repertoire WebApp v1.0
+**Erstellt von David Staron** | SpelBok WebApp v1.0

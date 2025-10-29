@@ -1,0 +1,17 @@
+🎵 Refactor: Rebrand to "SpelBok" + modernize architecture (v2.0.0)
+
+Breaking Changes:
+- Rebrand "Musik Repertoire" → "SpelBok" (Swedish for "songbook")
+- Split monolithic HTML (56KB) into modular structure
+- Reorganize: assets/css/, assets/js/, docs/
+
+Key Changes:
+- NEW: assets/css/styles.css, assets/js/app.js
+- UPDATED: index.html, manifest.json, sw.js (cache v2.0.0)
+- UPDATED: All translations (SV/DE/EN) and documentation
+- FIXED: Icon paths (icons/ → assets/icons/)
+
+Benefits: Better maintainability, improved caching, PWA-ready
+Migration: No action required - all data preserved
+
+Version: 1.0.0 → 2.0.0 | Author: David Staron © 2025

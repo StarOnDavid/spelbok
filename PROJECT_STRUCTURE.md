@@ -1,4 +1,5 @@
-# 🎵 Musik Repertoire - Projektstruktur
+# 🎵 SpelBok - Din digitala spelbok
+## Projektstruktur
 
 ## 📁 Ordnerstruktur
 
