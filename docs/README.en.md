@@ -1,6 +1,6 @@
 # 🎵 SpelBok - Your digital songbook
 
-**[🇸🇪 Svenska](README.sv.md)** | **[🇩🇪 Deutsch](../README.md)** | **[🇬🇧 English](README.en.md)**
+**[🇸🇪 Svenska](README.sv.md)** | **[🇩🇪 Deutsch](../README.md)**
 
 ---
 
