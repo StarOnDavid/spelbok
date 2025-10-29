@@ -233,5 +233,3 @@ This app is freely usable for private and commercial purposes.
 ---
 
 ## 🎵 Enjoy SpelBok!
-
-**Created by David Staron** | SpelBok v2.0.0 © 2025

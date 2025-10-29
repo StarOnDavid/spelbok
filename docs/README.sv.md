@@ -233,5 +233,3 @@ Denna app är fritt användbar för privat och kommersiellt bruk.
 ---
 
 ## 🎵 Ha kul med SpelBok!
-
-**Skapad av David Staron** | SpelBok v2.0.0 © 2025
