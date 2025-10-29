@@ -1,6 +1,8 @@
-# 🎵 SpelBok WebApp
+# 🎵 SpelBok - Din digitala spelbok
 
-Eine Single-File WebApp zur Verwaltung deines Musikrepertoires - vollständig offline nutzbar!
+Eine moderne Progressive Web App zur Verwaltung deines Musikrepertoires - vollständig offline nutzbar!
+
+> **SpelBok** (Schwedisch) = Liederbuch/Spielbuch für Musiker
 
 ## ✨ Features
 
@@ -50,11 +52,11 @@ Eine Single-File WebApp zur Verwaltung deines Musikrepertoires - vollständig of
 Die App kann als Progressive Web App installiert werden und läuft dann wie eine native App!
 
 #### iPhone/iPad (Safari):
-1. **Safari öffnen** und App-Datei öffnen (`musik-repertoire.html`)
+1. **Öffne die App-URL** in Safari (z.B. https://deinusername.github.io/spelbok/)
 2. Tippe auf das **Teilen-Symbol** (□↑)
 3. Wähle **"Zum Home-Bildschirm"**
 4. Tippe auf **"Hinzufügen"**
-5. **Fertig!** Die App ist jetzt auf deinem Home-Bildschirm
+5. **Fertig!** Die App ist jetzt auf deinem Home-Bildschirm als "SpelBok"
 
 #### Android (Chrome):
 1. **Chrome öffnen** und App öffnen
@@ -78,11 +80,17 @@ Die App kann als Progressive Web App installiert werden und läuft dann wie eine
 
 ---
 
-### 💻 Schnellstart (Desktop ohne Installation)
-### 💻 Schnellstart (Desktop ohne Installation)
-1. **Datei herunterladen**: `musik-repertoire.html`
-2. **Im Browser öffnen**: Doppelklick oder Rechtsklick → "Öffnen mit" → Browser wählen
-3. **Fertig!** Die App läuft sofort - keine Installation nötig
+### 💻 Schnellstart
+
+#### Option A: Online nutzen (empfohlen)
+1. **Öffne die App-URL** in deinem Browser
+2. **Fertig!** Die App läuft sofort
+
+#### Option B: Lokal ausführen
+1. **Repository klonen**: `git clone https://github.com/username/spelbok.git`
+2. **Webserver starten**: `python3 -m http.server 8000`
+3. **Browser öffnen**: `http://localhost:8000`
+4. **Fertig!** Die App läuft lokal
 
 ---
 
@@ -175,16 +183,29 @@ Dies schützt vor versehentlichem doppelten Import derselben Daten!
 
 ## 🛠️ Technische Details
 
-### PWA-Architektur
-Die App ist als Progressive Web App konzipiert und nutzt moderne Web-Technologien:
+### Moderne Architektur (v2.0.0)
+Die App nutzt eine **modulare Struktur** mit getrennten Dateien:
 
-**Service Worker:**
+**Struktur:**
+```
+spelbok/
+├── index.html           # Haupt-HTML (Entry Point)
+├── manifest.json        # PWA Konfiguration
+├── sw.js               # Service Worker (Cache v2.0.0)
+├── assets/
+│   ├── css/styles.css  # Stylesheet (7.4 KB)
+│   └── js/app.js       # App-Logik (14 KB)
+└── docs/               # Dokumentation
+```
+
+**Service Worker (spelbok-v2.0.0):**
 - Ermöglicht Offline-Funktionalität
-- Cached App-Dateien für schnellen Zugriff
+- Cached HTML, CSS, JS und manifest.json
 - Automatische Updates im Hintergrund
 
 **Web App Manifest:**
-- Definiert App-Eigenschaften (Name, Icons, Farben)
+- Name: "SpelBok - Din digitala spelbok"
+- Definiert App-Eigenschaften (Icons, Farben, Start-URL)
 - Ermöglicht Installation auf Home-Bildschirm
 - iOS- und Android-optimiert
 
@@ -202,10 +223,11 @@ Jeder Song erhält beim Erstellen eine eindeutige ID im Format `song_timestamp_r
 - Bei bestehenden Daten werden alte IDs automatisch migriert
 
 ### Technologie-Stack
-- **Pure HTML/CSS/JavaScript** - keine Frameworks
+- **HTML5, CSS3, ES6 JavaScript** - keine Frameworks, pure vanilla JS
 - **localStorage API** - für Datenspeicherung
-- **Responsive Design** - funktioniert überall
-- **Single Page Application** - alles in einer Datei
+- **Responsive Design** - funktioniert auf allen Geräten
+- **Progressive Web App** - mit Service Worker und Manifest
+- **Mehrsprachigkeit** - Schwedisch, Deutsch, Englisch
 
 ### Browser-Kompatibilität
 - ✅ Chrome/Chromium (ab Version 60)
@@ -222,8 +244,19 @@ Diese App ist frei verwendbar für private und kommerzielle Zwecke.
 
 ---
 
-## 🎵 Viel Spaß mit deinem Musikrepertoire!
+## 🎵 Viel Spaß mit SpelBok!
 
 Bei Fragen oder Problemen: Öffne die Browser-Konsole (F12) für technische Details.
 
-**Erstellt von David Staron** | SpelBok WebApp v1.0
+---
+
+## 📚 Weitere Dokumentation
+
+- **[GETTING_STARTED.md](../GETTING_STARTED.md)** - Setup und Deployment Guide
+- **[PROJECT_STRUCTURE.md](../PROJECT_STRUCTURE.md)** - Architektur-Dokumentation
+- **[CHANGELOG.md](../CHANGELOG.md)** - Versionshistorie
+- **[GITHUB_DEPLOYMENT.md](../GITHUB_DEPLOYMENT.md)** - GitHub Pages Deployment
+
+---
+
+**Erstellt von David Staron** | SpelBok v2.0.0 © 2025
