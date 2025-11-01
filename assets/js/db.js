@@ -14,7 +14,7 @@ const DB = (() => {
 
   // Define schema with indexes for filtering
   db.version(1).stores({
-    songs: "id, landskap, svarighetsgrad, trad_eller_ny",
+    songs: "id, region, difficulty, type",
   });
 
   /**
@@ -161,7 +161,7 @@ const DB = (() => {
 
   /**
    * Get songs by filter
-   * @param {Object} filters - Filter object {landskap, svarighetsgrad, trad_eller_ny}
+   * @param {Object} filters - Filter object {region, difficulty, type}
    * @returns {Promise<Array>} Filtered songs
    */
   async function getFilteredSongs(filters = {}) {
@@ -169,18 +169,16 @@ const DB = (() => {
       let collection = db.songs.toCollection();
 
       // Apply filters if provided
-      if (filters.landskap) {
-        collection = db.songs.where("landskap").equals(filters.landskap);
+      if (filters.region) {
+        collection = db.songs.where("region").equals(filters.region);
       }
-      if (filters.svarighetsgrad) {
+      if (filters.difficulty) {
         collection = collection.and(
-          (song) => song.svarighetsgrad === filters.svarighetsgrad,
+          (song) => song.difficulty === filters.difficulty,
         );
       }
-      if (filters.trad_eller_ny) {
-        collection = collection.and(
-          (song) => song.trad_eller_ny === filters.trad_eller_ny,
-        );
+      if (filters.type) {
+        collection = collection.and((song) => song.type === filters.type);
       }
 
       return await collection.toArray();

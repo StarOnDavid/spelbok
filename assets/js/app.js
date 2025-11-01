@@ -88,14 +88,12 @@ function setupEventListeners() {
   document.getElementById("cancelBtn").addEventListener("click", resetForm);
   document.getElementById("searchInput").addEventListener("input", filterSongs);
   document
-    .getElementById("filterLandskap")
+    .getElementById("filterRegion")
     .addEventListener("change", filterSongs);
   document
-    .getElementById("filterSvarighetsgrad")
+    .getElementById("filterDifficulty")
     .addEventListener("change", filterSongs);
-  document
-    .getElementById("filterTradNy")
-    .addEventListener("change", filterSongs);
+  document.getElementById("filterType").addEventListener("change", filterSongs);
 }
 
 // === DATA MANAGEMENT ===
@@ -105,10 +103,88 @@ async function loadSongs() {
     songs = await DB.getAllSongs();
 
     // Data migration: Convert old numeric IDs to new unique IDs
+    // and old Swedish field names to new English field names
     let needsMigration = false;
     songs.forEach((song) => {
       if (!song.id || typeof song.id === "number") {
         song.id = generateUniqueId();
+        needsMigration = true;
+      }
+
+      // Migrate Swedish field names to English
+      if (song.titel !== undefined) {
+        song.title = song.titel;
+        delete song.titel;
+        needsMigration = true;
+      }
+      if (song.lattyp !== undefined) {
+        song.songType = song.lattyp;
+        delete song.lattyp;
+        needsMigration = true;
+      }
+      if (song.efter_av !== undefined) {
+        song.composer = song.efter_av;
+        delete song.efter_av;
+        needsMigration = true;
+      }
+      if (song.ort !== undefined) {
+        song.location = song.ort;
+        delete song.ort;
+        needsMigration = true;
+      }
+      if (song.landskap !== undefined) {
+        song.region = song.landskap;
+        delete song.landskap;
+        needsMigration = true;
+      }
+      if (song.land !== undefined) {
+        song.country = song.land;
+        delete song.land;
+        needsMigration = true;
+      }
+      if (song.tonart !== undefined) {
+        song.key = song.tonart;
+        delete song.tonart;
+        needsMigration = true;
+      }
+      if (song.svarighetsgrad !== undefined) {
+        song.difficulty = song.svarighetsgrad;
+        delete song.svarighetsgrad;
+        needsMigration = true;
+      }
+      if (song.utmaningar !== undefined) {
+        song.challenges = song.utmaningar;
+        delete song.utmaningar;
+        needsMigration = true;
+      }
+      if (song.larde_av !== undefined) {
+        song.learnedFrom = song.larde_av;
+        delete song.larde_av;
+        needsMigration = true;
+      }
+      if (song.inspelning !== undefined) {
+        song.recording = song.inspelning;
+        delete song.inspelning;
+        needsMigration = true;
+      }
+      if (song.noter !== undefined) {
+        song.notes = song.noter;
+        delete song.noter;
+        needsMigration = true;
+      }
+      if (song.instrument_kommentar !== undefined) {
+        song.instrumentComment = song.instrument_kommentar;
+        delete song.instrument_kommentar;
+        needsMigration = true;
+      }
+      if (song.trad_eller_ny !== undefined) {
+        song.type = song.trad_eller_ny;
+        delete song.trad_eller_ny;
+        needsMigration = true;
+      }
+      if (song.andra_kommentarer !== undefined) {
+        song.otherComments = song.andra_kommentarer;
+        delete song.andra_kommentarer;
         needsMigration = true;
       }
     });
@@ -136,21 +212,21 @@ function handleFormSubmit(e) {
   e.preventDefault();
 
   const formData = {
-    titel: document.getElementById("titel").value,
-    lattyp: document.getElementById("lattyp").value,
-    efter_av: document.getElementById("efter_av").value,
-    ort: document.getElementById("ort").value,
-    landskap: document.getElementById("landskap").value,
-    land: document.getElementById("land").value,
-    tonart: document.getElementById("tonart").value,
-    svarighetsgrad: document.getElementById("svarighetsgrad").value,
-    utmaningar: document.getElementById("utmaningar").value,
-    larde_av: document.getElementById("larde_av").value,
-    inspelning: document.getElementById("inspelning").value,
-    noter: document.getElementById("noter").value,
-    instrument_kommentar: document.getElementById("instrument_kommentar").value,
-    trad_eller_ny: document.getElementById("trad_eller_ny").value,
-    andra_kommentarer: document.getElementById("andra_kommentarer").value,
+    title: document.getElementById("title").value,
+    songType: document.getElementById("songType").value,
+    composer: document.getElementById("composer").value,
+    location: document.getElementById("location").value,
+    region: document.getElementById("region").value,
+    country: document.getElementById("country").value,
+    key: document.getElementById("key").value,
+    difficulty: document.getElementById("difficulty").value,
+    challenges: document.getElementById("challenges").value,
+    learnedFrom: document.getElementById("learnedFrom").value,
+    recording: document.getElementById("recording").value,
+    notes: document.getElementById("notes").value,
+    instrumentComment: document.getElementById("instrumentComment").value,
+    type: document.getElementById("type").value,
+    otherComments: document.getElementById("otherComments").value,
   };
 
   if (editingId !== null) {
@@ -206,23 +282,22 @@ function editSong(songId) {
   editingId = song.id;
   document.getElementById("cancelBtn").style.display = "block";
 
-  document.getElementById("titel").value = song.titel || "";
-  document.getElementById("lattyp").value = song.lattyp || "";
-  document.getElementById("efter_av").value = song.efter_av || "";
-  document.getElementById("ort").value = song.ort || "";
-  document.getElementById("landskap").value = song.landskap || "";
-  document.getElementById("land").value = song.land || "";
-  document.getElementById("tonart").value = song.tonart || "";
-  document.getElementById("svarighetsgrad").value = song.svarighetsgrad || "";
-  document.getElementById("utmaningar").value = song.utmaningar || "";
-  document.getElementById("larde_av").value = song.larde_av || "";
-  document.getElementById("inspelning").value = song.inspelning || "";
-  document.getElementById("noter").value = song.noter || "";
-  document.getElementById("instrument_kommentar").value =
-    song.instrument_kommentar || "";
-  document.getElementById("trad_eller_ny").value = song.trad_eller_ny || "";
-  document.getElementById("andra_kommentarer").value =
-    song.andra_kommentarer || "";
+  document.getElementById("title").value = song.title || "";
+  document.getElementById("songType").value = song.songType || "";
+  document.getElementById("composer").value = song.composer || "";
+  document.getElementById("location").value = song.location || "";
+  document.getElementById("region").value = song.region || "";
+  document.getElementById("country").value = song.country || "";
+  document.getElementById("key").value = song.key || "";
+  document.getElementById("difficulty").value = song.difficulty || "";
+  document.getElementById("challenges").value = song.challenges || "";
+  document.getElementById("learnedFrom").value = song.learnedFrom || "";
+  document.getElementById("recording").value = song.recording || "";
+  document.getElementById("notes").value = song.notes || "";
+  document.getElementById("instrumentComment").value =
+    song.instrumentComment || "";
+  document.getElementById("type").value = song.type || "";
+  document.getElementById("otherComments").value = song.otherComments || "";
 
   updateFormTitle();
   document
@@ -242,10 +317,8 @@ function resetForm() {
 function updateStats() {
   document.getElementById("totalSongs").textContent = songs.length;
 
-  const traditional = songs.filter(
-    (s) => s.trad_eller_ny === "Traditionell",
-  ).length;
-  const newSongs = songs.filter((s) => s.trad_eller_ny === "Ny").length;
+  const traditional = songs.filter((s) => s.type === "Traditionell").length;
+  const newSongs = songs.filter((s) => s.type === "Ny").length;
 
   document.getElementById("traditionalCount").textContent = traditional;
   document.getElementById("newCount").textContent = newSongs;
@@ -254,83 +327,81 @@ function updateStats() {
 // === FILTERING ===
 
 function updateFilters() {
-  // Landskap Filter
-  const landskapSet = new Set();
+  // Region Filter
+  const regionSet = new Set();
   songs.forEach((s) => {
-    if (s.landskap) landskapSet.add(s.landskap);
+    if (s.region) regionSet.add(s.region);
   });
 
-  const landskapSelect = document.getElementById("filterLandskap");
-  const currentLandskap = landskapSelect.value;
-  landskapSelect.innerHTML = `<option value="" data-i18n="allLandskap">${t("allLandskap")}</option>`;
+  const regionSelect = document.getElementById("filterRegion");
+  const currentRegion = regionSelect.value;
+  regionSelect.innerHTML = `<option value="" data-i18n="allRegions">${t("allRegions")}</option>`;
 
-  Array.from(landskapSet)
+  Array.from(regionSet)
     .sort()
-    .forEach((landskap) => {
+    .forEach((region) => {
       const option = document.createElement("option");
-      option.value = landskap;
-      option.textContent = landskap;
-      landskapSelect.appendChild(option);
+      option.value = region;
+      option.textContent = region;
+      regionSelect.appendChild(option);
     });
 
-  landskapSelect.value = currentLandskap;
+  regionSelect.value = currentRegion;
 
-  // Svårighetsgrad Filter
-  const svarighetsgradSet = new Set();
+  // Difficulty Filter
+  const difficultySet = new Set();
   songs.forEach((s) => {
-    if (s.svarighetsgrad) svarighetsgradSet.add(s.svarighetsgrad);
+    if (s.difficulty) difficultySet.add(s.difficulty);
   });
 
-  const svarighetsgradSelect = document.getElementById("filterSvarighetsgrad");
-  const currentSvarighetsgrad = svarighetsgradSelect.value;
-  svarighetsgradSelect.innerHTML = `<option value="" data-i18n="allDifficulties">${t("allDifficulties")}</option>`;
+  const difficultySelect = document.getElementById("filterDifficulty");
+  const currentDifficulty = difficultySelect.value;
+  difficultySelect.innerHTML = `<option value="" data-i18n="allDifficulties">${t("allDifficulties")}</option>`;
 
-  // Definierte Reihenfolge für Schwierigkeitsgrade
+  // Defined order for difficulty levels
   const difficultyOrder = ["Lätt", "Medel", "Svår", "Mycket svår"];
 
   difficultyOrder.forEach((difficulty) => {
-    if (svarighetsgradSet.has(difficulty)) {
+    if (difficultySet.has(difficulty)) {
       const option = document.createElement("option");
       option.value = difficulty;
       option.textContent = difficulty;
-      svarighetsgradSelect.appendChild(option);
+      difficultySelect.appendChild(option);
     }
   });
 
-  svarighetsgradSelect.value = currentSvarighetsgrad;
+  difficultySelect.value = currentDifficulty;
 
-  // Trad eller ny Filter
-  const tradNySet = new Set();
+  // Type Filter
+  const typeSet = new Set();
   songs.forEach((s) => {
-    if (s.trad_eller_ny) tradNySet.add(s.trad_eller_ny);
+    if (s.type) typeSet.add(s.type);
   });
 
-  const tradNySelect = document.getElementById("filterTradNy");
-  const currentTradNy = tradNySelect.value;
-  tradNySelect.innerHTML = `<option value="" data-i18n="allTypes">${t("allTypes")}</option>`;
+  const typeSelect = document.getElementById("filterType");
+  const currentType = typeSelect.value;
+  typeSelect.innerHTML = `<option value="" data-i18n="allTypes">${t("allTypes")}</option>`;
 
-  // Definierte Reihenfolge für Typ
+  // Defined order for type
   const typeOrder = ["Traditionell", "Ny", "Modern tolkning"];
 
   typeOrder.forEach((type) => {
-    if (tradNySet.has(type)) {
+    if (typeSet.has(type)) {
       const option = document.createElement("option");
       option.value = type;
       option.textContent = type;
-      tradNySelect.appendChild(option);
+      typeSelect.appendChild(option);
     }
   });
 
-  tradNySelect.value = currentTradNy;
+  typeSelect.value = currentType;
 }
 
 function filterSongs() {
   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-  const landskapFilter = document.getElementById("filterLandskap").value;
-  const svarighetsgradFilter = document.getElementById(
-    "filterSvarighetsgrad",
-  ).value;
-  const tradNyFilter = document.getElementById("filterTradNy").value;
+  const regionFilter = document.getElementById("filterRegion").value;
+  const difficultyFilter = document.getElementById("filterDifficulty").value;
+  const typeFilter = document.getElementById("filterType").value;
 
   filteredSongs = songs.filter((song) => {
     if (searchTerm) {
@@ -338,10 +409,9 @@ function filterSongs() {
       if (!searchableText.includes(searchTerm)) return false;
     }
 
-    if (landskapFilter && song.landskap !== landskapFilter) return false;
-    if (svarighetsgradFilter && song.svarighetsgrad !== svarighetsgradFilter)
-      return false;
-    if (tradNyFilter && song.trad_eller_ny !== tradNyFilter) return false;
+    if (regionFilter && song.region !== regionFilter) return false;
+    if (difficultyFilter && song.difficulty !== difficultyFilter) return false;
+    if (typeFilter && song.type !== typeFilter) return false;
 
     return true;
   });
@@ -351,9 +421,9 @@ function filterSongs() {
 
 function resetFilters() {
   document.getElementById("searchInput").value = "";
-  document.getElementById("filterLandskap").value = "";
-  document.getElementById("filterSvarighetsgrad").value = "";
-  document.getElementById("filterTradNy").value = "";
+  document.getElementById("filterRegion").value = "";
+  document.getElementById("filterDifficulty").value = "";
+  document.getElementById("filterType").value = "";
   filteredSongs = [...songs];
   renderTable();
 }
@@ -410,21 +480,21 @@ function renderTable() {
   filteredSongs.forEach((song) => {
     tableHTML += `
             <tr>
-                <td style="font-weight: 600;">${escapeHtml(song.titel || "-")}</td>
-                <td>${escapeHtml(song.lattyp || "-")}</td>
-                <td>${escapeHtml(song.efter_av || "-")}</td>
-                <td>${escapeHtml(song.ort || "-")}</td>
-                <td>${escapeHtml(song.landskap || "-")}</td>
-                <td>${escapeHtml(song.land || "-")}</td>
-                <td>${escapeHtml(song.tonart || "-")}</td>
-                <td>${escapeHtml(song.svarighetsgrad || "-")}</td>
-                <td>${escapeHtml(song.utmaningar || "-")}</td>
-                <td>${escapeHtml(song.larde_av || "-")}</td>
-                <td>${escapeHtml(song.inspelning || "-")}</td>
-                <td>${escapeHtml(song.noter || "-")}</td>
-                <td>${escapeHtml(song.instrument_kommentar || "-")}</td>
-                <td>${escapeHtml(song.trad_eller_ny || "-")}</td>
-                <td>${escapeHtml(song.andra_kommentarer || "-")}</td>
+                <td style="font-weight: 600;">${escapeHtml(song.title || "-")}</td>
+                <td>${escapeHtml(song.songType || "-")}</td>
+                <td>${escapeHtml(song.composer || "-")}</td>
+                <td>${escapeHtml(song.location || "-")}</td>
+                <td>${escapeHtml(song.region || "-")}</td>
+                <td>${escapeHtml(song.country || "-")}</td>
+                <td>${escapeHtml(song.key || "-")}</td>
+                <td>${escapeHtml(song.difficulty || "-")}</td>
+                <td>${escapeHtml(song.challenges || "-")}</td>
+                <td>${escapeHtml(song.learnedFrom || "-")}</td>
+                <td>${escapeHtml(song.recording || "-")}</td>
+                <td>${escapeHtml(song.notes || "-")}</td>
+                <td>${escapeHtml(song.instrumentComment || "-")}</td>
+                <td>${escapeHtml(song.type || "-")}</td>
+                <td>${escapeHtml(song.otherComments || "-")}</td>
                 <td>
                     <div class="actions">
                         <button class="btn btn-edit" onclick="editSong('${song.id}')">${t("edit")}</button>
@@ -466,23 +536,22 @@ async function exportData() {
 function isDuplicate(newSong) {
   return songs.some((existingSong) => {
     return (
-      (existingSong.titel || "") === (newSong.titel || "") &&
-      (existingSong.lattyp || "") === (newSong.lattyp || "") &&
-      (existingSong.efter_av || "") === (newSong.efter_av || "") &&
-      (existingSong.ort || "") === (newSong.ort || "") &&
-      (existingSong.landskap || "") === (newSong.landskap || "") &&
-      (existingSong.land || "") === (newSong.land || "") &&
-      (existingSong.tonart || "") === (newSong.tonart || "") &&
-      (existingSong.svarighetsgrad || "") === (newSong.svarighetsgrad || "") &&
-      (existingSong.utmaningar || "") === (newSong.utmaningar || "") &&
-      (existingSong.larde_av || "") === (newSong.larde_av || "") &&
-      (existingSong.inspelning || "") === (newSong.inspelning || "") &&
-      (existingSong.noter || "") === (newSong.noter || "") &&
-      (existingSong.instrument_kommentar || "") ===
-        (newSong.instrument_kommentar || "") &&
-      (existingSong.trad_eller_ny || "") === (newSong.trad_eller_ny || "") &&
-      (existingSong.andra_kommentarer || "") ===
-        (newSong.andra_kommentarer || "")
+      (existingSong.title || "") === (newSong.title || "") &&
+      (existingSong.songType || "") === (newSong.songType || "") &&
+      (existingSong.composer || "") === (newSong.composer || "") &&
+      (existingSong.location || "") === (newSong.location || "") &&
+      (existingSong.region || "") === (newSong.region || "") &&
+      (existingSong.country || "") === (newSong.country || "") &&
+      (existingSong.key || "") === (newSong.key || "") &&
+      (existingSong.difficulty || "") === (newSong.difficulty || "") &&
+      (existingSong.challenges || "") === (newSong.challenges || "") &&
+      (existingSong.learnedFrom || "") === (newSong.learnedFrom || "") &&
+      (existingSong.recording || "") === (newSong.recording || "") &&
+      (existingSong.notes || "") === (newSong.notes || "") &&
+      (existingSong.instrumentComment || "") ===
+        (newSong.instrumentComment || "") &&
+      (existingSong.type || "") === (newSong.type || "") &&
+      (existingSong.otherComments || "") === (newSong.otherComments || "")
     );
   });
 }
