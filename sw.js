@@ -3,13 +3,17 @@
 // Enables offline functionality and caching
 // ============================================
 
-const CACHE_NAME = "spelbok-v2.0.0";
+const CACHE_NAME = "spelbok-alpha";
 const urlsToCache = [
   "./",
   "./index.html",
   "./manifest.json",
   "./assets/css/styles.css",
   "./assets/js/app.js",
+  "./assets/js/i18n.js",
+  "./assets/i18n/sv.json",
+  "./assets/i18n/de.json",
+  "./assets/i18n/en.json",
 ];
 
 // Install event - cache resources

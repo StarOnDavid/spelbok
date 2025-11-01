@@ -386,7 +386,48 @@ input[type="file"] {
 }
 
 /* === RESPONSIVE DESIGN === */
+
+/* Mobile devices: Remove padding and border-radius for full-width layout */
+@media (max-width: 834px) {
+    /* Remove body padding on mobile to eliminate frame around container */
+    body {
+        padding: 0 !important;
+    }
+
+    /* Remove border-radius on mobile since there's no frame */
+    .container {
+        border-radius: 0 !important;
+        box-shadow: none;
+        padding: 10px;
+    }
+}
+
+/* Smartphones and small tablets */
 @media (max-width: 768px) {
+    .content {
+        padding: 10px;
+    }
+
+    /* Reduce padding and margins for all section containers */
+    .stats {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .form-section {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .filter-section {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .table-section {
+        margin-bottom: 10px;
+    }
+
     h1 {
         font-size: 1.8em;
     }

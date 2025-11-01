@@ -4,240 +4,8 @@
 // © 2025 David Staron
 // ============================================
 
-// === TRANSLATIONS ===
-const translations = {
-  sv: {
-    appTitle: "SpelBok",
-    appSubtitle: "Din digitala spelbok",
-    totalSongs: "Totala låtar",
-    traditionalSongs: "Traditionella",
-    newSongs: "Nya",
-    addNewSong: "Lägg till ny låt",
-    editSong: "Redigera låt",
-    titel: "Titel",
-    titelPlaceholder: "T.ex. Bingsjöpolska, Polska efter Hjort Anders",
-    lattyp: "Låttyp",
-    lattypPlaceholder: "T.ex. Polska, Vals, Slängpolska",
-    efterAv: "Efter/Av",
-    efterAvPlaceholder: "Kompositör eller källa",
-    ort: "Ort",
-    ortPlaceholder: "Stad eller by",
-    landskap: "Landskap",
-    landskapPlaceholder: "T.ex. Dalarna, Skåne",
-    land: "Land",
-    landPlaceholder: "T.ex. Sverige, Norge",
-    tonart: "Tonart",
-    tonartPlaceholder: "T.ex. A-dur, d-moll",
-    svarighetsgrad: "Svårighetsgrad",
-    chooseDifficulty: "Välj svårighetsgrad",
-    easy: "Lätt",
-    medium: "Medel",
-    hard: "Svår",
-    veryHard: "Mycket svår",
-    utmaningar: "Utmaningar / Bra att jobba på med låten",
-    utmaningarPlaceholder: "Tekniska utmaningar, specifika delar att öva på...",
-    lardeAv: "Av vem lärde jag mig låten?",
-    lardeAvPlaceholder: "Lärare eller källa",
-    inspelning: "Var hittar jag inspelning?",
-    inspelningPlaceholder: "URL eller plattform",
-    noter: "Not?",
-    noterPlaceholder: "Finns noter?",
-    instrumentKommentar: "Instrument kommentar",
-    instrumentPlaceholder: "T.ex. Fiol, Nyckelharpa",
-    tradEllerNy: "Trad eller ny",
-    chooseType: "Välj typ",
-    traditional: "Traditionell",
-    new: "Ny",
-    modernInterpretation: "Modern tolkning",
-    andraKommentarer: "Andra kommentarer",
-    andraKommentarerPlaceholder: "Övriga anteckningar och kommentarer...",
-    cancel: "Avbryt",
-    addSong: "Lägg till låt",
-    updateSong: "Uppdatera låt",
-    filterTitle: "Filtrera",
-    resetFilters: "Återställ filter",
-    search: "Sök",
-    searchPlaceholder: "Sök i alla fält...",
-    allLandskap: "Alla landskap",
-    allDifficulties: "Alla svårighetsgrader",
-    allTypes: "Alla typer",
-    repertoire: "Repertoar",
-    exportJson: "Exportera JSON",
-    importJson: "Importera JSON",
-    actions: "Åtgärder",
-    edit: "Redigera",
-    delete: "Ta bort",
-    noSongsYet: "Ingen låtar ännu",
-    addFirstSong: "Lägg till din första låt med formuläret ovan",
-    noMatchingFilters: "Inga låtar matchar filtren",
-    tryChangingFilters: "Prova att ändra dina filterinställningar",
-    confirmDelete: "Är du säker på att du vill ta bort denna låt?",
-    confirmImport:
-      "Vill du importera {count} låtar? Detta kommer att lägga till dem till din befintliga samling.",
-    importSuccess: "Import lyckades!",
-    duplicatesSkipped: "{count} dubbletter hoppades över.",
-    allDuplicates: "Alla {count} låtar finns redan i din samling.",
-    invalidFileFormat: "Ogiltig fil format. Vänligen välj en giltig JSON-fil.",
-    importError: "Fel vid import: {error}",
-  },
-  de: {
-    appTitle: "SpelBok",
-    appSubtitle: "Dein digitales Liederbuch",
-    totalSongs: "Gesamt Lieder",
-    traditionalSongs: "Traditionell",
-    newSongs: "Neue",
-    addNewSong: "Neues Lied hinzufügen",
-    editSong: "Lied bearbeiten",
-    titel: "Titel",
-    titelPlaceholder: "Z.B. Bingsjöpolska, Polska nach Hjort Anders",
-    lattyp: "Liedtyp",
-    lattypPlaceholder: "Z.B. Polska, Walzer, Slängpolska",
-    efterAv: "Nach/Von",
-    efterAvPlaceholder: "Komponist oder Quelle",
-    ort: "Ort",
-    ortPlaceholder: "Stadt oder Dorf",
-    landskap: "Region",
-    landskapPlaceholder: "Z.B. Dalarna, Skåne",
-    land: "Land",
-    landPlaceholder: "Z.B. Schweden, Norwegen",
-    tonart: "Tonart",
-    tonartPlaceholder: "Z.B. A-Dur, d-Moll",
-    svarighetsgrad: "Schwierigkeitsgrad",
-    chooseDifficulty: "Schwierigkeit wählen",
-    easy: "Leicht",
-    medium: "Mittel",
-    hard: "Schwer",
-    veryHard: "Sehr schwer",
-    utmaningar: "Herausforderungen / Gut zum Üben",
-    utmaningarPlaceholder:
-      "Technische Herausforderungen, spezifische Teile zum Üben...",
-    lardeAv: "Von wem habe ich das Lied gelernt?",
-    lardeAvPlaceholder: "Lehrer oder Quelle",
-    inspelning: "Wo finde ich die Aufnahme?",
-    inspelningPlaceholder: "URL oder Plattform",
-    noter: "Noten?",
-    noterPlaceholder: "Noten verfügbar?",
-    instrumentKommentar: "Instrument Kommentar",
-    instrumentPlaceholder: "Z.B. Geige, Nyckelharpa",
-    tradEllerNy: "Trad oder neu",
-    chooseType: "Typ wählen",
-    traditional: "Traditionell",
-    new: "Neu",
-    modernInterpretation: "Moderne Interpretation",
-    andraKommentarer: "Weitere Kommentare",
-    andraKommentarerPlaceholder: "Sonstige Notizen und Kommentare...",
-    cancel: "Abbrechen",
-    addSong: "Lied hinzufügen",
-    updateSong: "Lied aktualisieren",
-    filterTitle: "Filtern",
-    resetFilters: "Filter zurücksetzen",
-    search: "Suchen",
-    searchPlaceholder: "In allen Feldern suchen...",
-    allLandskap: "Alle Regionen",
-    allDifficulties: "Alle Schwierigkeitsgrade",
-    allTypes: "Alle Typen",
-    repertoire: "Repertoire",
-    exportJson: "JSON exportieren",
-    importJson: "JSON importieren",
-    actions: "Aktionen",
-    edit: "Bearbeiten",
-    delete: "Löschen",
-    noSongsYet: "Noch keine Lieder",
-    addFirstSong: "Füge dein erstes Lied mit dem Formular oben hinzu",
-    noMatchingFilters: "Keine Lieder entsprechen den Filtern",
-    tryChangingFilters: "Versuche die Filtereinstellungen zu ändern",
-    confirmDelete: "Bist du sicher, dass du dieses Lied löschen möchtest?",
-    confirmImport:
-      "Möchtest du {count} Lieder importieren? Diese werden zu deiner bestehenden Sammlung hinzugefügt.",
-    importSuccess: "Import erfolgreich!",
-    duplicatesSkipped: "{count} Duplikate übersprungen.",
-    allDuplicates:
-      "Alle {count} Lieder sind bereits in deiner Sammlung vorhanden.",
-    invalidFileFormat:
-      "Ungültiges Dateiformat. Bitte wähle eine gültige JSON-Datei.",
-    importError: "Fehler beim Import: {error}",
-  },
-  en: {
-    appTitle: "SpelBok",
-    appSubtitle: "Your digital songbook",
-    totalSongs: "Total Songs",
-    traditionalSongs: "Traditional",
-    newSongs: "New",
-    addNewSong: "Add New Song",
-    editSong: "Edit Song",
-    titel: "Title",
-    titelPlaceholder: "E.g. Bingsjöpolska, Polska after Hjort Anders",
-    lattyp: "Song Type",
-    lattypPlaceholder: "E.g. Polska, Waltz, Slängpolska",
-    efterAv: "After/By",
-    efterAvPlaceholder: "Composer or source",
-    ort: "Place",
-    ortPlaceholder: "City or village",
-    landskap: "Region",
-    landskapPlaceholder: "E.g. Dalarna, Skåne",
-    land: "Country",
-    landPlaceholder: "E.g. Sweden, Norway",
-    tonart: "Key",
-    tonartPlaceholder: "E.g. A major, d minor",
-    svarighetsgrad: "Difficulty",
-    chooseDifficulty: "Choose difficulty",
-    easy: "Easy",
-    medium: "Medium",
-    hard: "Hard",
-    veryHard: "Very Hard",
-    utmaningar: "Challenges / Good to work on",
-    utmaningarPlaceholder:
-      "Technical challenges, specific parts to practice...",
-    lardeAv: "Who did I learn the song from?",
-    lardeAvPlaceholder: "Teacher or source",
-    inspelning: "Where can I find the recording?",
-    inspelningPlaceholder: "URL or platform",
-    noter: "Sheet music?",
-    noterPlaceholder: "Sheet music available?",
-    instrumentKommentar: "Instrument Comment",
-    instrumentPlaceholder: "E.g. Violin, Nyckelharpa",
-    tradEllerNy: "Trad or new",
-    chooseType: "Choose type",
-    traditional: "Traditional",
-    new: "New",
-    modernInterpretation: "Modern interpretation",
-    andraKommentarer: "Other comments",
-    andraKommentarerPlaceholder: "Other notes and comments...",
-    cancel: "Cancel",
-    addSong: "Add Song",
-    updateSong: "Update Song",
-    filterTitle: "Filter",
-    resetFilters: "Reset Filters",
-    search: "Search",
-    searchPlaceholder: "Search in all fields...",
-    allLandskap: "All regions",
-    allDifficulties: "All difficulties",
-    allTypes: "All types",
-    repertoire: "Repertoire",
-    exportJson: "Export JSON",
-    importJson: "Import JSON",
-    actions: "Actions",
-    edit: "Edit",
-    delete: "Delete",
-    noSongsYet: "No songs yet",
-    addFirstSong: "Add your first song using the form above",
-    noMatchingFilters: "No songs match the filters",
-    tryChangingFilters: "Try changing your filter settings",
-    confirmDelete: "Are you sure you want to delete this song?",
-    confirmImport:
-      "Do you want to import {count} songs? They will be added to your existing collection.",
-    importSuccess: "Import successful!",
-    duplicatesSkipped: "{count} duplicates skipped.",
-    allDuplicates: "All {count} songs already exist in your collection.",
-    invalidFileFormat: "Invalid file format. Please select a valid JSON file.",
-    importError: "Error importing: {error}",
-  },
-};
-
 // === GLOBAL VARIABLES ===
 const STORAGE_KEY = "musikRepertoireSongs";
-const LANGUAGE_KEY = "musikRepertoireLanguage";
-let currentLanguage = "sv";
 let songs = [];
 let editingId = null;
 let filteredSongs = [];
@@ -248,8 +16,9 @@ function generateUniqueId() {
   return "song_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
 }
 
-function t(key) {
-  return translations[currentLanguage][key] || key;
+// Translation helper using i18n module
+function t(key, params = {}) {
+  return I18n.t(key, params);
 }
 
 function escapeHtml(text) {
@@ -260,18 +29,13 @@ function escapeHtml(text) {
 
 // === LANGUAGE FUNCTIONS ===
 
-function loadLanguage() {
-  const saved = localStorage.getItem(LANGUAGE_KEY);
-  if (saved && translations[saved]) {
-    currentLanguage = saved;
-    document.getElementById("languageSelect").value = saved;
-  }
+async function loadLanguage() {
+  await I18n.init();
   updateLanguage();
 }
 
-function changeLanguage(lang) {
-  currentLanguage = lang;
-  localStorage.setItem(LANGUAGE_KEY, lang);
+async function changeLanguage(lang) {
+  await I18n.changeLanguage(lang);
   updateLanguage();
   updateFilters();
 }
@@ -305,8 +69,8 @@ function updateFormTitle() {
 
 // === INITIALIZATION ===
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadLanguage();
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadLanguage();
   loadSongs();
   setupEventListeners();
 });
