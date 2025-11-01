@@ -39,6 +39,24 @@ function translateValue(field, value) {
   return value;
 }
 
+// Detect and convert links to clickable HTML
+function makeLinksClickable(text) {
+  if (!text || text === "-") return text;
+
+  // Regular expression to match various link formats:
+  // - http://, https://
+  // - file:/// (Unix/Mac), file:// (Windows)
+  // - smb://, afp://, ftp://, sftp://
+  // - Windows paths: C:\, \\server\share
+  // - Unix/Mac paths: /path/to/file, ~/path
+  const urlPattern =
+    /(https?:\/\/[^\s]+)|(file:\/\/\/[^\s]+)|(file:\/\/[^\s]+)|(smb:\/\/[^\s]+)|(afp:\/\/[^\s]+)|(ftp:\/\/[^\s]+)|(sftp:\/\/[^\s]+)|([A-Za-z]:\\[^\s]+)|(\\\\[^\s]+)|(\/[^\s]+)|(~\/[^\s]+)/g;
+
+  return text.replace(urlPattern, (match) => {
+    return `<a href="${escapeHtml(match)}" target="_blank" rel="noopener noreferrer" style="color: #4a90e2; text-decoration: underline;">${escapeHtml(match)}</a>`;
+  });
+}
+
 // === LANGUAGE FUNCTIONS ===
 
 async function loadLanguage() {
@@ -524,13 +542,13 @@ function renderTable() {
                 <td>${escapeHtml(song.country || "-")}</td>
                 <td>${escapeHtml(song.key || "-")}</td>
                 <td>${escapeHtml(translateValue("difficulty", song.difficulty) || "-")}</td>
-                <td>${escapeHtml(song.challenges || "-")}</td>
+                <td>${makeLinksClickable(escapeHtml(song.challenges || "-"))}</td>
                 <td>${escapeHtml(song.learnedFrom || "-")}</td>
-                <td>${escapeHtml(song.recording || "-")}</td>
-                <td>${escapeHtml(song.notes || "-")}</td>
+                <td>${makeLinksClickable(escapeHtml(song.recording || "-"))}</td>
+                <td>${makeLinksClickable(escapeHtml(song.notes || "-"))}</td>
                 <td>${escapeHtml(song.instrumentComment || "-")}</td>
                 <td>${escapeHtml(translateValue("type", song.type) || "-")}</td>
-                <td>${escapeHtml(song.otherComments || "-")}</td>
+                <td>${makeLinksClickable(escapeHtml(song.otherComments || "-"))}</td>
                 <td>
                     <div class="actions">
                         <button class="btn btn-edit" onclick="editSong('${song.id}')">${t("edit")}</button>
