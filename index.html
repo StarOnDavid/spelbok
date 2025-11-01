@@ -38,7 +38,7 @@
         <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
         <link rel="shortcut icon" href="assets/icons/favicon.ico" />
 
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
@@ -97,7 +97,7 @@
                             <label data-i18n="titel">Titel</label>
                             <input
                                 type="text"
-                                id="titel"
+                                id="title"
                                 data-i18n-placeholder="titelPlaceholder"
                                 placeholder="T.ex. Bingsjöpolska"
                                 style="font-weight: 600; font-size: 1.1em"
@@ -108,7 +108,7 @@
                                 <label data-i18n="lattyp">Låttyp</label
                                 ><input
                                     type="text"
-                                    id="lattyp"
+                                    id="songType"
                                     data-i18n-placeholder="lattypPlaceholder"
                                     placeholder="T.ex. Polska"
                                 />
@@ -117,7 +117,7 @@
                                 <label data-i18n="efterAv">Efter/Av</label
                                 ><input
                                     type="text"
-                                    id="efter_av"
+                                    id="composer"
                                     data-i18n-placeholder="efterAvPlaceholder"
                                     placeholder="Kompositör"
                                 />
@@ -126,7 +126,7 @@
                                 <label data-i18n="ort">Ort</label
                                 ><input
                                     type="text"
-                                    id="ort"
+                                    id="location"
                                     data-i18n-placeholder="ortPlaceholder"
                                     placeholder="Stad"
                                 />
@@ -135,7 +135,7 @@
                                 <label data-i18n="landskap">Landskap</label
                                 ><input
                                     type="text"
-                                    id="landskap"
+                                    id="region"
                                     data-i18n-placeholder="landskapPlaceholder"
                                     placeholder="T.ex. Dalarna"
                                 />
@@ -144,7 +144,7 @@
                                 <label data-i18n="land">Land</label
                                 ><input
                                     type="text"
-                                    id="land"
+                                    id="country"
                                     data-i18n-placeholder="landPlaceholder"
                                     placeholder="T.ex. Sverige"
                                 />
@@ -153,7 +153,7 @@
                                 <label data-i18n="tonart">Tonart</label
                                 ><input
                                     type="text"
-                                    id="tonart"
+                                    id="key"
                                     data-i18n-placeholder="tonartPlaceholder"
                                     placeholder="T.ex. A-dur"
                                 />
@@ -161,30 +161,30 @@
                             <div class="form-group">
                                 <label data-i18n="svarighetsgrad"
                                     >Svårighetsgrad</label
-                                ><select id="svarighetsgrad">
+                                ><select id="difficulty">
                                     <option value="" data-i18n-option="choose">
                                         Välj
                                     </option>
                                     <option
-                                        value="Lätt"
+                                        value="easy"
                                         data-i18n-option="easy"
                                     >
                                         Lätt
                                     </option>
                                     <option
-                                        value="Medel"
+                                        value="medium"
                                         data-i18n-option="medium"
                                     >
                                         Medel
                                     </option>
                                     <option
-                                        value="Svår"
+                                        value="hard"
                                         data-i18n-option="hard"
                                     >
                                         Svår
                                     </option>
                                     <option
-                                        value="Mycket svår"
+                                        value="veryHard"
                                         data-i18n-option="veryHard"
                                     >
                                         Mycket svår
@@ -196,7 +196,7 @@
                                     >Av vem lärde jag mig låten?</label
                                 ><input
                                     type="text"
-                                    id="larde_av"
+                                    id="learnedFrom"
                                     data-i18n-placeholder="lardeAvPlaceholder"
                                 />
                             </div>
@@ -204,7 +204,7 @@
                                 <label data-i18n="inspelning">Inspelning?</label
                                 ><input
                                     type="text"
-                                    id="inspelning"
+                                    id="recording"
                                     data-i18n-placeholder="inspelningPlaceholder"
                                 />
                             </div>
@@ -212,27 +212,27 @@
                                 <label data-i18n="noter">Not?</label
                                 ><input
                                     type="text"
-                                    id="noter"
+                                    id="notes"
                                     data-i18n-placeholder="noterPlaceholder"
                                 />
                             </div>
                             <div class="form-group">
                                 <label data-i18n="tradEllerNy">Trad/ny</label
-                                ><select id="trad_eller_ny">
+                                ><select id="type">
                                     <option value="" data-i18n-option="choose">
                                         Välj
                                     </option>
                                     <option
-                                        value="Traditionell"
+                                        value="traditional"
                                         data-i18n-option="traditional"
                                     >
                                         Traditionell
                                     </option>
-                                    <option value="Ny" data-i18n-option="new">
+                                    <option value="new" data-i18n-option="new">
                                         Ny
                                     </option>
                                     <option
-                                        value="Modern tolkning"
+                                        value="modernInterpretation"
                                         data-i18n-option="modernInterpretation"
                                     >
                                         Modern tolkning
@@ -244,7 +244,7 @@
                                     >Instrument</label
                                 ><input
                                     type="text"
-                                    id="instrument_kommentar"
+                                    id="instrumentComment"
                                     data-i18n-placeholder="instrumentPlaceholder"
                                 />
                             </div>
@@ -252,7 +252,7 @@
                         <div class="form-group">
                             <label data-i18n="utmaningar">Utmaningar</label
                             ><textarea
-                                id="utmaningar"
+                                id="challenges"
                                 data-i18n-placeholder="utmaningarPlaceholder"
                             ></textarea>
                         </div>
@@ -260,7 +260,7 @@
                             <label data-i18n="andraKommentarer"
                                 >Kommentarer</label
                             ><textarea
-                                id="andra_kommentarer"
+                                id="otherComments"
                                 data-i18n-placeholder="andraKommentarerPlaceholder"
                             ></textarea>
                         </div>
@@ -308,20 +308,20 @@
                         </div>
                         <div class="form-group">
                             <label data-i18n="landskap">Landskap</label
-                            ><select id="filterLandskap">
+                            ><select id="filterRegion">
                                 <option value="">Alla</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label data-i18n="svarighetsgrad"
                                 >Svårighetsgrad</label
-                            ><select id="filterSvarighetsgrad">
+                            ><select id="filterDifficulty">
                                 <option value="">Alla</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label data-i18n="tradEllerNy">Typ</label
-                            ><select id="filterTradNy">
+                            ><select id="filterType">
                                 <option value="">Alla</option>
                             </select>
                         </div>
