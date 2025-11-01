@@ -52,6 +52,12 @@ function updateLanguage() {
     element.placeholder = t(key);
   });
 
+  // Update dropdown options
+  document.querySelectorAll("[data-i18n-option]").forEach((element) => {
+    const key = element.getAttribute("data-i18n-option");
+    element.textContent = t(key);
+  });
+
   updateFormTitle();
 
   if (songs.length > 0) {

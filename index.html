@@ -93,6 +93,7 @@
                                 ><input
                                     type="text"
                                     id="lattyp"
+                                    data-i18n-placeholder="lattypPlaceholder"
                                     placeholder="T.ex. Polska"
                                 />
                             </div>
@@ -101,6 +102,7 @@
                                 ><input
                                     type="text"
                                     id="efter_av"
+                                    data-i18n-placeholder="efterAvPlaceholder"
                                     placeholder="Kompositör"
                                 />
                             </div>
@@ -109,6 +111,7 @@
                                 ><input
                                     type="text"
                                     id="ort"
+                                    data-i18n-placeholder="ortPlaceholder"
                                     placeholder="Stad"
                                 />
                             </div>
@@ -117,6 +120,7 @@
                                 ><input
                                     type="text"
                                     id="landskap"
+                                    data-i18n-placeholder="landskapPlaceholder"
                                     placeholder="T.ex. Dalarna"
                                 />
                             </div>
@@ -125,6 +129,7 @@
                                 ><input
                                     type="text"
                                     id="land"
+                                    data-i18n-placeholder="landPlaceholder"
                                     placeholder="T.ex. Sverige"
                                 />
                             </div>
@@ -133,6 +138,7 @@
                                 ><input
                                     type="text"
                                     id="tonart"
+                                    data-i18n-placeholder="tonartPlaceholder"
                                     placeholder="T.ex. A-dur"
                                 />
                             </div>
@@ -140,11 +146,31 @@
                                 <label data-i18n="svarighetsgrad"
                                     >Svårighetsgrad</label
                                 ><select id="svarighetsgrad">
-                                    <option value="">Välj</option>
-                                    <option value="Lätt">Lätt</option>
-                                    <option value="Medel">Medel</option>
-                                    <option value="Svår">Svår</option>
-                                    <option value="Mycket svår">
+                                    <option value="" data-i18n-option="choose">
+                                        Välj
+                                    </option>
+                                    <option
+                                        value="Lätt"
+                                        data-i18n-option="easy"
+                                    >
+                                        Lätt
+                                    </option>
+                                    <option
+                                        value="Medel"
+                                        data-i18n-option="medium"
+                                    >
+                                        Medel
+                                    </option>
+                                    <option
+                                        value="Svår"
+                                        data-i18n-option="hard"
+                                    >
+                                        Svår
+                                    </option>
+                                    <option
+                                        value="Mycket svår"
+                                        data-i18n-option="veryHard"
+                                    >
                                         Mycket svår
                                     </option>
                                 </select>
@@ -152,25 +178,47 @@
                             <div class="form-group">
                                 <label data-i18n="lardeAv"
                                     >Av vem lärde jag mig låten?</label
-                                ><input type="text" id="larde_av" />
+                                ><input
+                                    type="text"
+                                    id="larde_av"
+                                    data-i18n-placeholder="lardeAvPlaceholder"
+                                />
                             </div>
                             <div class="form-group">
                                 <label data-i18n="inspelning">Inspelning?</label
-                                ><input type="text" id="inspelning" />
+                                ><input
+                                    type="text"
+                                    id="inspelning"
+                                    data-i18n-placeholder="inspelningPlaceholder"
+                                />
                             </div>
                             <div class="form-group">
                                 <label data-i18n="noter">Not?</label
-                                ><input type="text" id="noter" />
+                                ><input
+                                    type="text"
+                                    id="noter"
+                                    data-i18n-placeholder="noterPlaceholder"
+                                />
                             </div>
                             <div class="form-group">
                                 <label data-i18n="tradEllerNy">Trad/ny</label
                                 ><select id="trad_eller_ny">
-                                    <option value="">Välj</option>
-                                    <option value="Traditionell">
+                                    <option value="" data-i18n-option="choose">
+                                        Välj
+                                    </option>
+                                    <option
+                                        value="Traditionell"
+                                        data-i18n-option="traditional"
+                                    >
                                         Traditionell
                                     </option>
-                                    <option value="Ny">Ny</option>
-                                    <option value="Modern tolkning">
+                                    <option value="Ny" data-i18n-option="new">
+                                        Ny
+                                    </option>
+                                    <option
+                                        value="Modern tolkning"
+                                        data-i18n-option="modernInterpretation"
+                                    >
                                         Modern tolkning
                                     </option>
                                 </select>
@@ -178,17 +226,27 @@
                             <div class="form-group">
                                 <label data-i18n="instrumentKommentar"
                                     >Instrument</label
-                                ><input type="text" id="instrument_kommentar" />
+                                ><input
+                                    type="text"
+                                    id="instrument_kommentar"
+                                    data-i18n-placeholder="instrumentPlaceholder"
+                                />
                             </div>
                         </div>
                         <div class="form-group">
                             <label data-i18n="utmaningar">Utmaningar</label
-                            ><textarea id="utmaningar"></textarea>
+                            ><textarea
+                                id="utmaningar"
+                                data-i18n-placeholder="utmaningarPlaceholder"
+                            ></textarea>
                         </div>
                         <div class="form-group">
                             <label data-i18n="andraKommentarer"
                                 >Kommentarer</label
-                            ><textarea id="andra_kommentarer"></textarea>
+                            ><textarea
+                                id="andra_kommentarer"
+                                data-i18n-placeholder="andraKommentarerPlaceholder"
+                            ></textarea>
                         </div>
                         <div class="form-buttons">
                             <button
