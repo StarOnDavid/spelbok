@@ -19,6 +19,8 @@ Progressive Web App för ditt musikrepertoar - installerbar och fullt fungerande
 
 ## 🚀 Installation
 
+[SpelBok App](https://starondavid.github.io/spelbok/)
+
 ### iPhone/iPad (Safari):
 1. Öppna appen i Safari
 2. Tryck på Dela-symbolen (□↑)
