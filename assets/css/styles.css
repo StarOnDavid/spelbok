@@ -398,14 +398,14 @@ input[type="file"] {
     .container {
         border-radius: 0 !important;
         box-shadow: none;
-        padding: 10px;
+        padding: 0px;
     }
 }
 
 /* Smartphones and small tablets */
 @media (max-width: 768px) {
     .content {
-        padding: 10px;
+        padding: 0px;
     }
 
     /* Reduce padding and margins for all section containers */

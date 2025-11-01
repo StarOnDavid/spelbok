@@ -5,7 +5,6 @@
 // ============================================
 
 // === GLOBAL VARIABLES ===
-const STORAGE_KEY = "musikRepertoireSongs";
 let songs = [];
 let editingId = null;
 let filteredSongs = [];
@@ -71,7 +70,8 @@ function updateFormTitle() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadLanguage();
-  loadSongs();
+  await DB.init(); // Initialize IndexedDB
+  await loadSongs();
   setupEventListeners();
 });
 
@@ -94,31 +94,34 @@ function setupEventListeners() {
 
 // === DATA MANAGEMENT ===
 
-function loadSongs() {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  songs = stored ? JSON.parse(stored) : [];
+async function loadSongs() {
+  try {
+    songs = await DB.getAllSongs();
 
-  // Data migration: Convert old numeric IDs to new unique IDs
-  let needsMigration = false;
-  songs.forEach((song) => {
-    if (!song.id || typeof song.id === "number") {
-      song.id = generateUniqueId();
-      needsMigration = true;
+    // Data migration: Convert old numeric IDs to new unique IDs
+    let needsMigration = false;
+    songs.forEach((song) => {
+      if (!song.id || typeof song.id === "number") {
+        song.id = generateUniqueId();
+        needsMigration = true;
+      }
+    });
+
+    if (needsMigration && songs.length > 0) {
+      // Update songs in IndexedDB
+      for (const song of songs) {
+        await DB.updateSong(song.id, song);
+      }
     }
-  });
 
-  if (needsMigration && songs.length > 0) {
-    saveSongs();
+    filteredSongs = [...songs];
+    updateStats();
+    updateFilters();
+    renderTable();
+  } catch (error) {
+    console.error("Error loading songs:", error);
+    alert(t("importError", { error: error.message }));
   }
-
-  filteredSongs = [...songs];
-  updateStats();
-  updateFilters();
-  renderTable();
-}
-
-function saveSongs() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
 }
 
 // === FORM HANDLING ===
@@ -151,48 +154,43 @@ function handleFormSubmit(e) {
   }
 
   resetForm();
-  loadSongs();
 }
 
-function addSong(data) {
-  const newSong = {
-    id: generateUniqueId(),
-    ...data,
-  };
-  songs.unshift(newSong);
-  saveSongs();
-}
-
-function updateSong(id, data) {
-  const index = songs.findIndex((s) => s.id === id);
-  if (index !== -1) {
-    songs[index] = { id, ...data };
-    saveSongs();
+async function addSong(data) {
+  try {
+    const newSong = {
+      id: generateUniqueId(),
+      ...data,
+    };
+    await DB.addSong(newSong);
+    await loadSongs();
+  } catch (error) {
+    console.error("Error adding song:", error);
+    alert(t("importError", { error: error.message }));
   }
 }
 
-function deleteSong(songId) {
+async function updateSong(id, data) {
+  try {
+    const updatedSong = { id, ...data };
+    await DB.updateSong(id, updatedSong);
+    await loadSongs();
+  } catch (error) {
+    console.error("Error updating song:", error);
+    alert(t("importError", { error: error.message }));
+  }
+}
+
+async function deleteSong(songId) {
   if (!confirm(t("confirmDelete"))) return;
 
-  const songToDelete = songs.find((s) => s.id === songId);
-  if (!songToDelete) {
-    console.error("Song not found:", songId);
-    return;
+  try {
+    await DB.deleteSong(songId);
+    await loadSongs();
+  } catch (error) {
+    console.error("Error deleting song:", error);
+    alert(t("importError", { error: error.message }));
   }
-
-  const beforeCount = songs.length;
-  songs = songs.filter((s) => s.id !== songId);
-  const afterCount = songs.length;
-
-  if (beforeCount - afterCount !== 1) {
-    console.error(
-      "Delete error: expected to delete 1 song, but deleted",
-      beforeCount - afterCount,
-    );
-  }
-
-  saveSongs();
-  loadSongs();
 }
 
 function editSong(songId) {
@@ -392,15 +390,22 @@ function renderTable() {
 
 // === IMPORT/EXPORT ===
 
-function exportData() {
-  const dataStr = JSON.stringify(songs, null, 2);
-  const dataBlob = new Blob([dataStr], { type: "application/json" });
-  const url = URL.createObjectURL(dataBlob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `musik-repertoire-${new Date().toISOString().split("T")[0]}.json`;
-  link.click();
-  URL.revokeObjectURL(url);
+async function exportData() {
+  try {
+    // Get fresh data from IndexedDB
+    const allSongs = await DB.getAllSongs();
+    const dataStr = JSON.stringify(allSongs, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `musik-repertoire-${new Date().toISOString().split("T")[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error exporting data:", error);
+    alert(t("importError", { error: error.message }));
+  }
 }
 
 function isDuplicate(newSong) {
@@ -427,12 +432,12 @@ function isDuplicate(newSong) {
   });
 }
 
-function importData(event) {
+async function importData(event) {
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
-  reader.onload = function (e) {
+  reader.onload = async function (e) {
     try {
       const importedData = JSON.parse(e.target.result);
       if (Array.isArray(importedData)) {
@@ -445,27 +450,26 @@ function importData(event) {
         const duplicateCount = importedData.length - newSongs.length;
 
         if (newSongs.length === 0) {
-          alert(t("allDuplicates").replace("{count}", importedData.length));
+          alert(t("allDuplicates", { count: importedData.length }));
           event.target.value = "";
           return;
         }
 
-        let confirmMsg = t("confirmImport").replace("{count}", newSongs.length);
+        let confirmMsg = t("confirmImport", { count: newSongs.length });
         if (duplicateCount > 0) {
-          confirmMsg +=
-            " " + t("duplicatesSkipped").replace("{count}", duplicateCount);
+          confirmMsg += " " + t("duplicatesSkipped", { count: duplicateCount });
         }
 
         if (confirm(confirmMsg)) {
-          newSongs.forEach((song) => {
-            addSong(song);
-          });
-          loadSongs();
+          // Import songs to IndexedDB
+          for (const song of newSongs) {
+            await addSong(song);
+          }
 
           let successMsg = t("importSuccess");
           if (duplicateCount > 0) {
             successMsg +=
-              " " + t("duplicatesSkipped").replace("{count}", duplicateCount);
+              " " + t("duplicatesSkipped", { count: duplicateCount });
           }
           alert(successMsg);
         }
@@ -473,7 +477,7 @@ function importData(event) {
         alert(t("invalidFileFormat"));
       }
     } catch (error) {
-      alert(t("importError").replace("{error}", error.message));
+      alert(t("importError", { error: error.message }));
     }
   };
   reader.readAsText(file);

@@ -288,7 +288,9 @@
                 <div class="footer">© 2025 David Staron</div>
             </div>
         </div>
-        <!-- Load i18n module first, then main app -->
+        <!-- Load libraries and modules in order -->
+        <script src="assets/js/vendor/dexie.min.js"></script>
+        <script src="assets/js/db.js"></script>
         <script src="assets/js/i18n.js"></script>
         <script src="assets/js/app.js"></script>
     </body>
