@@ -69,5 +69,6 @@
   "duplicatesSkipped": "{count} dubbletter hoppades över.",
   "allDuplicates": "Alla {count} låtar finns redan i din samling.",
   "invalidFileFormat": "Ogiltig fil format. Vänligen välj en giltig JSON-fil.",
-  "importError": "Fel vid import: {error}"
+  "importError": "Fel vid import: {error}",
+  "choose": "Välj"
 }

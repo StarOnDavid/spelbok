@@ -27,115 +27,6 @@ python3 -m http.server 8000
 
 ---
 
-### Methode 3: Eigener Port
-
-```bash
-# Port 3000:
-python3 -m http.server 3000
-
-# Port 5000:
-python3 -m http.server 5000
-```
-
----
-
-## 📁 Projektstruktur
-
-```
-spelbok/
-├── index.html              # Haupt-HTML (Entry Point)
-├── manifest.json           # PWA Konfiguration
-├── sw.js                   # Service Worker (Cache v2.0.0)
-├── assets/
-│   ├── css/
-│   │   └── styles.css      # Stylesheet (7.4 KB)
-│   ├── js/
-│   │   └── app.js          # App-Logik (14 KB)
-│   └── icons/              # PWA Icons
-├── docs/                   # Dokumentation (sv, de, en)
-│   ├── README.sv.md
-│   ├── README.de.md
-│   └── README.en.md
-├── dev/                    # Development Tools
-│   ├── start-server.sh     # Dev Server Script
-│   └── DEV.md             # Diese Datei
-└── tests/                  # Tests (optional)
-```
-
----
-
-## 🔧 Entwicklungstools
-
-### Browser DevTools
-
-**Chrome/Edge:**
-- **Console:** `Cmd+Option+J` (Mac) / `Ctrl+Shift+J` (Windows)
-- **DevTools:** `Cmd+Option+I` (Mac) / `Ctrl+Shift+I` (Windows)
-
-**Firefox:**
-- **Console:** `Cmd+Option+K` (Mac) / `Ctrl+Shift+K` (Windows)
-
-**Safari:**
-- Aktiviere "Develop" Menü in Einstellungen
-- **Console:** `Cmd+Option+C`
-
-### PWA Testing
-
-**Service Worker überprüfen:**
-1. Chrome DevTools → Application → Service Workers
-2. Aktiviere "Update on reload"
-3. Klicke "Unregister" um Service Worker zu löschen
-
-**Cache löschen:**
-1. Chrome DevTools → Application → Storage
-2. "Clear site data"
-
-**PWA installieren (Test):**
-1. Chrome: Adressleiste → Install Icon
-2. Safari (iOS): Share → "Add to Home Screen"
-
----
-
-## 📝 Entwicklungs-Workflow
-
-### 1. Änderungen vornehmen
-
-Bearbeite Dateien in:
-- `index.html` - HTML Struktur
-- `assets/css/styles.css` - Styling
-- `assets/js/app.js` - JavaScript Logik
-
-### 2. Testen
-
-1. **Speichere** deine Änderungen
-2. **Reload** im Browser (`Cmd+R` / `Ctrl+R`)
-3. Bei Service Worker Änderungen: **Hard Reload** (`Cmd+Shift+R`)
-
-### 3. Service Worker aktualisieren
-
-Wenn du `sw.js` änderst:
-
-```javascript
-// sw.js - CACHE_NAME erhöhen:
-const CACHE_NAME = 'spelbok-v2.0.1'; // v2.0.0 → v2.0.1
-```
-
-### 4. LocalStorage testen
-
-**Daten anzeigen:**
-```javascript
-// Browser Console:
-localStorage.getItem('musikRepertoireSongs');
-```
-
-**Daten löschen:**
-```javascript
-// Browser Console:
-localStorage.clear();
-```
-
----
-
 ## 🐛 Debugging
 
 ### Service Worker Probleme
@@ -150,19 +41,6 @@ navigator.serviceWorker.getRegistrations().then(registrations => {
 navigator.serviceWorker.getRegistrations().then(registrations => {
   registrations.forEach(reg => reg.unregister());
 });
-```
-
-### LocalStorage Probleme
-
-```javascript
-// Alle gespeicherten Daten anzeigen:
-console.log(localStorage);
-
-// Spezifische Daten:
-console.log(JSON.parse(localStorage.getItem('musikRepertoireSongs')));
-
-// Sprache:
-console.log(localStorage.getItem('musikRepertoireLanguage'));
 ```
 
 ### Cache Probleme
@@ -261,17 +139,6 @@ du -sh index.html
 2. "Disable cache"
 3. Reload
 4. Prüfe "DOMContentLoaded" und "Load" Zeit
-
----
-
-## 🔐 Sicherheit
-
-### Wichtige Hinweise
-
-- **localStorage** ist nicht verschlüsselt
-- Keine sensiblen Daten speichern
-- XSS-Schutz durch `escapeHtml()` Funktion
-- Kein Backend = keine API-Sicherheit nötig
 
 ---
 
