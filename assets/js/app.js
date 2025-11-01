@@ -26,6 +26,19 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+// Translate difficulty and type values for display
+function translateValue(field, value) {
+  if (!value || value === "-") return value;
+
+  // Values are stored in English (easy, medium, hard, veryHard, traditional, new, modernInterpretation)
+  // Check if it's a translatable field and return translated value
+  if (field === "difficulty" || field === "type") {
+    return t(value);
+  }
+
+  return value;
+}
+
 // === LANGUAGE FUNCTIONS ===
 
 async function loadLanguage() {
@@ -187,6 +200,29 @@ async function loadSongs() {
         delete song.andra_kommentarer;
         needsMigration = true;
       }
+
+      // Migrate Swedish difficulty values to English
+      const difficultyMap = {
+        Lätt: "easy",
+        Medel: "medium",
+        Svår: "hard",
+        "Mycket svår": "veryHard",
+      };
+      if (song.difficulty && difficultyMap[song.difficulty]) {
+        song.difficulty = difficultyMap[song.difficulty];
+        needsMigration = true;
+      }
+
+      // Migrate Swedish type values to English
+      const typeMap = {
+        Traditionell: "traditional",
+        Ny: "new",
+        "Modern tolkning": "modernInterpretation",
+      };
+      if (song.type && typeMap[song.type]) {
+        song.type = typeMap[song.type];
+        needsMigration = true;
+      }
     });
 
     if (needsMigration && songs.length > 0) {
@@ -317,8 +353,8 @@ function resetForm() {
 function updateStats() {
   document.getElementById("totalSongs").textContent = songs.length;
 
-  const traditional = songs.filter((s) => s.type === "Traditionell").length;
-  const newSongs = songs.filter((s) => s.type === "Ny").length;
+  const traditional = songs.filter((s) => s.type === "traditional").length;
+  const newSongs = songs.filter((s) => s.type === "new").length;
 
   document.getElementById("traditionalCount").textContent = traditional;
   document.getElementById("newCount").textContent = newSongs;
@@ -359,13 +395,13 @@ function updateFilters() {
   difficultySelect.innerHTML = `<option value="" data-i18n="allDifficulties">${t("allDifficulties")}</option>`;
 
   // Defined order for difficulty levels
-  const difficultyOrder = ["Lätt", "Medel", "Svår", "Mycket svår"];
+  const difficultyOrder = ["easy", "medium", "hard", "veryHard"];
 
   difficultyOrder.forEach((difficulty) => {
     if (difficultySet.has(difficulty)) {
       const option = document.createElement("option");
       option.value = difficulty;
-      option.textContent = difficulty;
+      option.textContent = t(difficulty);
       difficultySelect.appendChild(option);
     }
   });
@@ -383,13 +419,13 @@ function updateFilters() {
   typeSelect.innerHTML = `<option value="" data-i18n="allTypes">${t("allTypes")}</option>`;
 
   // Defined order for type
-  const typeOrder = ["Traditionell", "Ny", "Modern tolkning"];
+  const typeOrder = ["traditional", "new", "modernInterpretation"];
 
   typeOrder.forEach((type) => {
     if (typeSet.has(type)) {
       const option = document.createElement("option");
       option.value = type;
-      option.textContent = type;
+      option.textContent = t(type);
       typeSelect.appendChild(option);
     }
   });
@@ -487,13 +523,13 @@ function renderTable() {
                 <td>${escapeHtml(song.region || "-")}</td>
                 <td>${escapeHtml(song.country || "-")}</td>
                 <td>${escapeHtml(song.key || "-")}</td>
-                <td>${escapeHtml(song.difficulty || "-")}</td>
+                <td>${escapeHtml(translateValue("difficulty", song.difficulty) || "-")}</td>
                 <td>${escapeHtml(song.challenges || "-")}</td>
                 <td>${escapeHtml(song.learnedFrom || "-")}</td>
                 <td>${escapeHtml(song.recording || "-")}</td>
                 <td>${escapeHtml(song.notes || "-")}</td>
                 <td>${escapeHtml(song.instrumentComment || "-")}</td>
-                <td>${escapeHtml(song.type || "-")}</td>
+                <td>${escapeHtml(translateValue("type", song.type) || "-")}</td>
                 <td>${escapeHtml(song.otherComments || "-")}</td>
                 <td>
                     <div class="actions">
