@@ -254,6 +254,7 @@ function updateStats() {
 // === FILTERING ===
 
 function updateFilters() {
+  // Landskap Filter
   const landskapSet = new Set();
   songs.forEach((s) => {
     if (s.landskap) landskapSet.add(s.landskap);
@@ -273,6 +274,54 @@ function updateFilters() {
     });
 
   landskapSelect.value = currentLandskap;
+
+  // Svårighetsgrad Filter
+  const svarighetsgradSet = new Set();
+  songs.forEach((s) => {
+    if (s.svarighetsgrad) svarighetsgradSet.add(s.svarighetsgrad);
+  });
+
+  const svarighetsgradSelect = document.getElementById("filterSvarighetsgrad");
+  const currentSvarighetsgrad = svarighetsgradSelect.value;
+  svarighetsgradSelect.innerHTML = `<option value="" data-i18n="allDifficulties">${t("allDifficulties")}</option>`;
+
+  // Definierte Reihenfolge für Schwierigkeitsgrade
+  const difficultyOrder = ["Lätt", "Medel", "Svår", "Mycket svår"];
+
+  difficultyOrder.forEach((difficulty) => {
+    if (svarighetsgradSet.has(difficulty)) {
+      const option = document.createElement("option");
+      option.value = difficulty;
+      option.textContent = difficulty;
+      svarighetsgradSelect.appendChild(option);
+    }
+  });
+
+  svarighetsgradSelect.value = currentSvarighetsgrad;
+
+  // Trad eller ny Filter
+  const tradNySet = new Set();
+  songs.forEach((s) => {
+    if (s.trad_eller_ny) tradNySet.add(s.trad_eller_ny);
+  });
+
+  const tradNySelect = document.getElementById("filterTradNy");
+  const currentTradNy = tradNySelect.value;
+  tradNySelect.innerHTML = `<option value="" data-i18n="allTypes">${t("allTypes")}</option>`;
+
+  // Definierte Reihenfolge für Typ
+  const typeOrder = ["Traditionell", "Ny", "Modern tolkning"];
+
+  typeOrder.forEach((type) => {
+    if (tradNySet.has(type)) {
+      const option = document.createElement("option");
+      option.value = type;
+      option.textContent = type;
+      tradNySelect.appendChild(option);
+    }
+  });
+
+  tradNySelect.value = currentTradNy;
 }
 
 function filterSongs() {
